@@ -12,7 +12,7 @@ export interface IListingsParams {
 }
 
 export default async function getListings(
-  params: IListingsParams
+  params: IListingsParams 
 ) {
   try {
     const {
@@ -27,6 +27,7 @@ export default async function getListings(
     } = params;
 
     let query: any = {};
+
 
     if (userId) {
       query.userId = userId;
@@ -58,38 +59,37 @@ export default async function getListings(
       query.locationValue = locationValue;
     }
 
-    if (startDate && endDate) {
-      query.NOT = {
-        reservations: {
-          some: {
-            OR: [
-              {
-                endDate: { gte: startDate },
-                startDate: { lte: startDate }
-              },
-              {
-                startDate: { lte: endDate },
-                endDate: { gte: endDate }
-              }
-            ]
-          }
-        }
-      }
+  // Fetch rent listings
+  const rentListings = await prisma.rentListings.findMany({
+    where: query,
+    orderBy: {
+      createdAt: 'desc'
     }
+  });
 
-    const rentlListings = await prisma.rentListings.findMany({
-      where: query,
-      orderBy: {
-        createdAt: 'desc'
-      }
-    });
+  // Fetch sale listings
+  const saleListings = await prisma.saleListings.findMany({
+    where: query,
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
 
-    const safeListings = rentlListings.map((listing) => ({
-      ...listing,
-      createdAt: listing.createdAt.toISOString(),
-    }));
+   // Map and combine listings
+   const safeRentListings = rentListings.map(listing => ({
+    ...listing,
+    createdAt: listing.createdAt.toISOString(),
+    type: 'rent' // Add a type field to distinguish the listings
+  }));
 
-    return safeListings;
+  const safeSaleListings = saleListings.map(listing => ({
+    ...listing,
+    createdAt: listing.createdAt.toISOString(),
+    type: 'sale' // Add a type field to distinguish the listings
+  }));
+
+  return [...safeRentListings, ...safeSaleListings];
+
   } catch (error: any) {
     throw new Error(error);
   }

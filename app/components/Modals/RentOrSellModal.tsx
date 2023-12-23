@@ -30,6 +30,14 @@ const RentOrSellModal: React.FC = () => {
         title="Do you want to sell or rent?"
         
       />
+        <div className="flex flex-row justify-center w-full">
+        <div className="flex flex-col items-center mr-24 mt-8">
+          <img src="/images/rent.png" alt="Rent" className="max-w-full ml-1 h-auto" />
+        </div>
+        <div className="flex flex-col items-center ml-24">
+          <img src="/images/sell.png" alt="Sell" className="max-w-full h-auto" />
+        </div>
+      </div>
     </div>
   );
 

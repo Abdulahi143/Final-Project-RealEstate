@@ -29,7 +29,7 @@ export async function POST(request: Request)  {
 
   // Create the listing
   try {
-    const listing = await prisma.forRent.create({
+    const listing = await prisma.rentListings.create({
       data: {
         title,
         description,

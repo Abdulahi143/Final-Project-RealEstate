@@ -12,6 +12,7 @@ import { SafeUser } from "@/app/types";
 
 import MenuItem from "./MenuItem";
 import Avatar from "../Avatar";
+import useSellOrRentModal from "@/app/hooks/useSellOrRentModal";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null
@@ -24,7 +25,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
-  const rentModal = useRentModal();
+  // const rentModal = useRentModal();
+
+  const rentOrSellMoodal = useSellOrRentModal();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,19 +35,29 @@ const UserMenu: React.FC<UserMenuProps> = ({
     setIsOpen((value) => !value);
   }, []);
 
-  const onRent = useCallback(() => {
+  // const onRent = useCallback(() => {
+  //   if (!currentUser) {
+  //     return loginModal.onOpen();
+  //   }
+
+  //   rentModal.onOpen();
+  // }, [loginModal, rentModal, currentUser]);
+
+  const chooseToSellOrRent = useCallback(() => {
     if (!currentUser) {
       return loginModal.onOpen();
     }
 
-    rentModal.onOpen();
-  }, [loginModal, rentModal, currentUser]);
+
+    rentOrSellMoodal.onOpen();
+  }, [loginModal, rentOrSellMoodal, currentUser]);
+
 
   return ( 
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div 
-          onClick={onRent}
+          onClick={chooseToSellOrRent}
           className="
             hidden
             md:block
@@ -119,8 +132,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
                   onClick={() => router.push('/properties')}
                 />
                 <MenuItem 
-                  label="Ren your home" 
-                  onClick={rentModal.onOpen}
+                  label="Sell or rent your properties"  
+                  onClick={rentOrSellMoodal.onOpen}
                 />
                 <hr />
                 <MenuItem 

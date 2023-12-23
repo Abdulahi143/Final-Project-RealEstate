@@ -12,6 +12,8 @@ import LoginModal from './components/Modals/LoginModal';
 import RegisterModal from './components/Modals/RegisterModal';
 import SearchModal from './components/Modals/SearchModal';
 import RentModal from './components/Modals/RentModal';
+import RentOrSellModal from './components/Modals/RentOrSellModal';
+import SellModal from './components/Modals/SellModal';
 
 export const metadata = {
   title: 'Dugsiiye Real Estate',
@@ -38,6 +40,8 @@ export default async function RootLayout({
           <RegisterModal />
           <SearchModal />
           <RentModal />
+          <SellModal />
+          <RentOrSellModal />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
         <div className="pb-20 pt-28">

@@ -1,6 +1,6 @@
 import prisma from "@/app/libs/prismadb";
 
-export interface IListingsParams {
+export interface SaleListingsParams {
   userId?: string;
   sizeCount?: number;
   roomCount?: number;
@@ -11,8 +11,8 @@ export interface IListingsParams {
   category?: string;
 }
 
-export default async function getListings(
-  params: IListingsParams
+export default async function getSaleListings(
+  params: SaleListingsParams
 ) {
   try {
     const {
@@ -21,8 +21,6 @@ export default async function getListings(
       sizeCount, 
       bathroomCount,
       locationValue,
-      startDate,
-      endDate,
       category,
     } = params;
 
@@ -58,33 +56,14 @@ export default async function getListings(
       query.locationValue = locationValue;
     }
 
-    if (startDate && endDate) {
-      query.NOT = {
-        reservations: {
-          some: {
-            OR: [
-              {
-                endDate: { gte: startDate },
-                startDate: { lte: startDate }
-              },
-              {
-                startDate: { lte: endDate },
-                endDate: { gte: endDate }
-              }
-            ]
-          }
-        }
-      }
-    }
-
-    const rentlListings = await prisma.rentListings.findMany({
+    const saleListings = await prisma.saleListings.findMany({
       where: query,
       orderBy: {
         createdAt: 'desc'
       }
     });
 
-    const safeListings = rentlListings.map((listing) => ({
+    const safeListings = saleListings.map((listing) => ({
       ...listing,
       createdAt: listing.createdAt.toISOString(),
     }));

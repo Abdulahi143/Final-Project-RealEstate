@@ -97,7 +97,7 @@ const SellModal = () => {
     
     setIsLoading(true);
 
-    axios.post('/api/listings', data)
+    axios.post('/api/forsale', data)
     .then(() => {
       toast.success('Listing created!');
       router.refresh();
@@ -167,7 +167,7 @@ const SellModal = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Where is your place located?"
-          subtitle="Help guests find you!"
+          subtitle="Help buyers find you!"
         />
         <CountrySelect 
           value={location} 
@@ -189,8 +189,8 @@ const SellModal = () => {
         <Counter 
           onChange={(value) => setCustomValue('sizeCount', value)}
           value={parkingCount}
-          title="Guests" 
-          subtitle="How many guests do you allow?"
+          title="Size" 
+          subtitle="How big is the object in m²?"
         />
         <hr />
         <Counter 
@@ -206,6 +206,13 @@ const SellModal = () => {
           title="Bathrooms" 
           subtitle="How many bathrooms do you have?"
         />
+
+<Counter 
+  onChange={(value) => setCustomValue('parkingCount', value)}
+  value={parkingCount}
+  title="Parking Spaces" 
+  subtitle="How many parking spaces are available?"
+/>
       </div>
     )
   }
@@ -215,7 +222,7 @@ const SellModal = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Add a photo of your place"
-          subtitle="Show guests what your place looks like!"
+          subtitle="Show buyers what your place looks like!"
         />
         <ImageUpload
           onChange={(value) => setCustomValue('imageSrc', value)}
@@ -258,7 +265,6 @@ const SellModal = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Now, set your price"
-          subtitle="How much do you charge per night?"
         />
         <Input
           id="price"

@@ -12,7 +12,7 @@ import {
 
 import Avatar from "../Avatar";
 import ListingCategory from "./ListingCategory";
-import { FaParking } from "react-icons/fa";
+import { FaCouch, FaParking } from "react-icons/fa";
 
 const Map = dynamic(() => import('../Map'), { 
   ssr: false 
@@ -21,6 +21,7 @@ const Map = dynamic(() => import('../Map'), {
 interface ListingInfoProps {
   user: SafeUser,
   description: string;
+  furnished: string;
   sizeCount: number;
   roomCount: number;
   parkingCount: number;
@@ -36,6 +37,7 @@ interface ListingInfoProps {
 const ListingInfo: React.FC<ListingInfoProps> = ({
   user,
   description,
+  furnished,
   sizeCount,
   roomCount,
   bathroomCount,
@@ -44,6 +46,8 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   locationValue,
 }) => {
   const { getByValue } = useCountries();
+
+
 
   const coordinates = getByValue(locationValue)?.latlng
   return ( 
@@ -73,10 +77,12 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         >
   <div>{sizeCount} m²</div>
   <div>{roomCount} rooms</div>
-  <div>{bathroomCount} bathrooms</div>
+  <div>{bathroomCount} bathrooms</div> 
   <div className="flex items-center gap-1">
-  {parkingCount} parking spaces
-</div>
+  {parkingCount} parking spaces</div>
+<div> {furnished === 'yes' ? "Furnished" : "Not Furnished"}</div>
+
+
 
 
         </div>

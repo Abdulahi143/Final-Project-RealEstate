@@ -38,11 +38,19 @@ const ListingCard: React.FC<ListingCardProps> = ({
   actionId = '',
   currentUser,
 }) => {
-
   const router = useRouter();
   const { getByValue } = useCountries();
 
   const location = getByValue(data.locationValue);
+
+    // Calculate the price label based on the listing type
+    const priceLabel = useMemo(() => {
+      let label = `$ ${data.price}`;
+      if (data.type === 'rent' && !reservation) {
+        label += ' /month';
+      }
+      return label;
+    }, [data.type, data.price, reservation]);
 
   const getShortDescription = (description: string) => {
     const words = description.split(' ');
@@ -197,10 +205,10 @@ const furnished = (furnished: string) => {
       
       <div className="flex flex-row items-center gap-1">
         <div className="font-semibold">
-          $ {price}
+        {priceLabel}
         </div>
         {!reservation && (
-          <div className="font-light">/month</div>
+          <div className="font-light"></div>
         )}
       </div>
       {onAction && actionLabel && (
