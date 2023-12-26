@@ -4,6 +4,7 @@ interface IParams {
   RentListingsId?: string;
   userId?: string;
   authorId?: string;
+  listingId?: string;
 }
 
 export default async function getReservations(

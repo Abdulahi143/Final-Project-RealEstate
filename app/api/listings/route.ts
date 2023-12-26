@@ -33,11 +33,11 @@ export async function POST(
     }
   });
 
-  const listing = await prisma.rentListings.create({
+  const rentListing = await prisma.rentListings.create({
     data: {
       title,
       description,
-      imageSrc,
+      imageSrc: Array.isArray(imageSrc) ? imageSrc : [imageSrc],
       category,
       furnished,
       parkingCount,
@@ -50,5 +50,22 @@ export async function POST(
     }
   });
 
-  return NextResponse.json(listing);
+
+  const saleListing = await prisma.saleListings.create({
+    data: {
+      title,
+      description,
+      imageSrc: Array.isArray(imageSrc) ? imageSrc : [imageSrc],
+      category,
+      parkingCount,
+      roomCount,
+      bathroomCount,
+      sizeCount,
+      locationValue: location.value,
+      price: parseInt(price, 10),
+      userId: currentUser.id
+    }
+  });
+
+  return NextResponse.json(rentListing && saleListing);
 }

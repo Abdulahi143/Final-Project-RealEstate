@@ -7,7 +7,7 @@ import ToasterProvider from '@/app/providers/ToasterProvider';
 
 import './globals.css'
 import ClientOnly from './components/ClientOnly';
-import getCurrentUser from './actions/rentActions/getCurrentUser';
+import getCurrentUser from './actions/getCurrentUser';
 import LoginModal from './components/Modals/LoginModal';
 import RegisterModal from './components/Modals/RegisterModal';
 import SearchModal from './components/Modals/SearchModal';

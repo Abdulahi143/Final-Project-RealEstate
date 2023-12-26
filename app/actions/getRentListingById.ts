@@ -4,7 +4,7 @@ interface IParams {
   listingId?: string;
 }
 
-export default async function getListingById(
+export default async function getRentListingsById(
   params: IParams
 ) {
   try {
@@ -38,6 +38,3 @@ export default async function getListingById(
     throw new Error(error);
   }
 }
-
-
-

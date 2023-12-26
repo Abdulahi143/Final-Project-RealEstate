@@ -4,13 +4,13 @@ interface IParams {
   listingId?: string;
 }
 
-export default async function getListingById(
+export default async function getSaleListingById(
   params: IParams
 ) {
   try {
     const { listingId } = params;
 
-    const listing = await prisma.rentListings.findUnique({
+    const listing = await prisma.saleListings.findUnique({
       where: {
         id: listingId,
       },
@@ -38,6 +38,3 @@ export default async function getListingById(
     throw new Error(error);
   }
 }
-
-
-

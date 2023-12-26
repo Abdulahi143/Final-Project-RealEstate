@@ -2,12 +2,13 @@ import React from 'react';
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
 import EmptyState from "@/app/components/EmptyState";
-import getListings, { IListingsParams } from "@/app/actions/rentActions/getListings";
-import getCurrentUser from "@/app/actions/rentActions/getCurrentUser";
+
 import ClientOnly from "./components/ClientOnly";
 import Hero from "./components/hero/Hero";
 import Categories from "./components/navbar/Categories";
 import Link from "next/link";
+import getListings, { IListingsParams } from './actions/getListings';
+import getCurrentUser from './actions/getCurrentUser';
 
 interface HomeProps {
   searchParams: IListingsParams;

@@ -1,12 +1,14 @@
 
-import getCurrentUser from "@/app/actions/rentActions/getCurrentUser";
-import getListingById from "@/app/actions/rentActions/getListingById";
-import getReservations from "@/app/actions/rentActions/getReservations";
+
 
 import ClientOnly from "@/app/components/ClientOnly";
 import EmptyState from "@/app/components/EmptyState";
 
 import ListingClient from "./ListingClient";
+import getReservations from "@/app/actions/getReservations";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import getSaleListingById from "@/app/actions/getSaleListingById";
+import getRentListingsById from "@/app/actions/getRentListingById";
 
 interface IParams {
   listingId?: string;
@@ -14,11 +16,15 @@ interface IParams {
 
 const ListingPage = async ({ params }: { params: IParams }) => {
 
-  const listing = await getListingById(params);
+  const rentListing = await getRentListingsById(params);
+  const saleListing = await getSaleListingById(params);
   const reservations = await getReservations(params);
   const currentUser = await getCurrentUser();
 
-  if (!listing) {
+
+  const listingToShow = rentListing || saleListing;
+
+  if (!rentListing && !saleListing) {
     return (
       <ClientOnly>
         <EmptyState />
@@ -28,11 +34,13 @@ const ListingPage = async ({ params }: { params: IParams }) => {
 
   return (
     <ClientOnly>
-      <ListingClient
-        listing={listing}
+      {listingToShow && (
+        <ListingClient
+        listing={listingToShow}
         reservations={reservations}
         currentUser={currentUser}
       />
+      )}
     </ClientOnly>
   );
 }

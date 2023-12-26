@@ -54,7 +54,7 @@ model RentListings {
   id             String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   description String
-  imageSrc String
+  imageSrc String[]
   createdAt DateTime @default(now())
   category  String
   furnished String
@@ -75,7 +75,7 @@ model SaleListings {
   id             String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   description String
-  imageSrc String
+  imageSrc String[]
   createdAt DateTime @default(now())
   category  String
   roomCount Int
