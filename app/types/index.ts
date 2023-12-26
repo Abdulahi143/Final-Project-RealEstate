@@ -1,8 +1,12 @@
-import { Listing, Reservation, User } from "@prisma/client";
+import { RentListings, SaleListings, Reservation, User } from "@prisma/client";
 
-export type SafeListing = Omit<Listing, "createdAt"> & {
+export type SafeListing = (Omit<RentListings, "createdAt"> | Omit<SaleListings, "createdAt">) & {
   createdAt: string;
+  type?: string; // Add this if 'type' is a property you need
+  furnished?: string;
 };
+
+
 
 export type SafeReservation = Omit<
   Reservation, 

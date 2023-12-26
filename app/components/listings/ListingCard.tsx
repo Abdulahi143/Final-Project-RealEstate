@@ -19,6 +19,7 @@ import { FaBath, FaBed, FaCouch, FaParking } from "react-icons/fa";
 import { IoIosResize } from "react-icons/io";
 import { MdChevronLeft, MdChevronRight, MdLocationOn } from "react-icons/md";
 import { formatNumberWithSpaces } from "@/app/libs/formatNumber";
+import FurnishedComponent from "../Furnished";
 
 interface ListingCardProps {
   data: SafeListing;
@@ -39,6 +40,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
   actionId = '',
   currentUser,
 }) => {
+
+
   const router = useRouter();
   const { getByValue } = useCountries();
 
@@ -109,13 +112,7 @@ const parking = (parkingCount: number) => {
   );
 };
 
-const furnished = (furnished: string) => {
-  return (
-    <div className="flex items-center gap-1">
-       {furnished === 'yes' && <FaCouch />} {/* Ensure this checks the argument, not data.furnished */}
-    </div>
-  );
-};
+
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -211,7 +208,7 @@ const furnished = (furnished: string) => {
               {rooms(data.roomCount)}
               {size(data.sizeCount)}
               {parking(data.parkingCount)}
-              {furnished(data.furnished)}
+              <FurnishedComponent furnished={data.furnished} />
             </div>
 
             {/* Additional details like bedrooms and bathrooms can be added here if available in your data */}

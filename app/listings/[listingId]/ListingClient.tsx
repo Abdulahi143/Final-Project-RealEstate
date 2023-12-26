@@ -35,6 +35,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   reservations = [],
   currentUser
 }) => {
+
   const loginModal = useLoginModal();
   const router = useRouter();
 
@@ -137,6 +138,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
           >
             <ListingInfo
               user={listing.user}
+              price={listing.price}
               parkingCount={listing.parkingCount} 
               category={category}
               furnished={listing.furnished}
@@ -154,15 +156,20 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 md:col-span-3
               "
             >
-              <ListingReservation
-                price={listing.price}
-                totalPrice={totalPrice}
-                onChangeDate={(value) => setDateRange(value)}
-                dateRange={dateRange}
-                onSubmit={onCreateReservation}
-                disabled={isLoading}
-                disabledDates={disabledDates}
-              />
+
+{listing && (
+    <ListingReservation
+      listing={listing}
+      price={listing.price}
+      totalPrice={totalPrice}
+      onChangeDate={(value) => setDateRange(value)}
+      dateRange={dateRange}
+      onSubmit={onCreateReservation}
+      disabled={isLoading}
+      disabledDates={disabledDates}
+    />
+  )} 
+              
             </div>
           </div>
         </div>

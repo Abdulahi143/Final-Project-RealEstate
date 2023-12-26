@@ -21,11 +21,12 @@ const Map = dynamic(() => import('../Map'), {
 interface ListingInfoProps {
   user: SafeUser,
   description: string;
-  furnished: string;
+  furnished?: string;
   sizeCount: number;
   roomCount: number;
   parkingCount: number;
   bathroomCount: number;
+  price: number;
   category: {
     icon: IconType,
     label: string;
@@ -39,6 +40,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   description,
   furnished,
   sizeCount,
+  price,
   roomCount,
   bathroomCount,
   parkingCount,
@@ -80,7 +82,11 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   <div>{bathroomCount} bathrooms</div> 
   <div className="flex items-center gap-1">
   {parkingCount} parking spaces</div>
-<div> {furnished === 'yes' ? "Furnished" : "Not Furnished"}</div>
+
+  {typeof furnished !== 'undefined' &&(
+    <div> {furnished === 'yes' ? "Furnished" : "Not Furnished"}</div>
+
+  )}
 
 
 

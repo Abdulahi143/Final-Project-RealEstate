@@ -4,8 +4,14 @@ import { Range } from 'react-date-range';
 
 import Button from "../Button";
 import Calendar from "../inputs/Calendar";
+import { useMemo } from 'react';
+import { formatNumberWithSpaces } from '@/app/libs/formatNumber';
+import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
 
 interface ListingReservationProps {
+  listing: SafeListing;
+  reservation?: SafeReservation;
+  currentUser?: SafeUser | null
   price: number;
   dateRange: Range,
   totalPrice: number;
@@ -18,14 +24,38 @@ interface ListingReservationProps {
 const ListingReservation: React.FC<
   ListingReservationProps
 > = ({
+  listing,
+  reservation,
   price,
   dateRange,
   totalPrice,
   onChangeDate,
   onSubmit,
   disabled,
-  disabledDates
+  disabledDates,
+  currentUser
 }) => {
+
+
+
+  const formattedPrice = useMemo(() => {
+    let formattedPrice = formatNumberWithSpaces(listing.price);
+
+    // If the listing is furnished, it's assumed to be a rental
+    if (listing.furnished) {
+      // If there is no reservation, add '/month' to the price
+      if (!reservation) {
+        return `$ ${formattedPrice} /month`;
+      }
+    }
+
+    // For sale listings or listings with reservations
+    return `$ ${formattedPrice}`;
+  }, [listing.price, listing.furnished, reservation]);
+
+
+
+  
   return ( 
     <div 
       className="
@@ -39,11 +69,9 @@ const ListingReservation: React.FC<
       <div className="
       flex flex-row items-center gap-1 p-4">
         <div className="text-2xl font-semibold">
-          $ {price}
+           {formattedPrice}
         </div>
-        <div className="font-light text-neutral-600">
-          per month
-        </div>
+
       </div>
       <hr />
       {/* <Calendar

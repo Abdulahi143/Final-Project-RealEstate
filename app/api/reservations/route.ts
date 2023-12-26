@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import prisma from "@/app/libs/prismadb";
-import getCurrentUser from "@/app/actions/rentActions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 export async function POST(
   request: Request, 
@@ -24,7 +24,7 @@ export async function POST(
     return NextResponse.error();
   }
 
-  const listingAndReservation = await prisma.listing.update({
+  const listingAndReservation = await prisma.rentListings.update({
     where: {
       id: listingId
     },
