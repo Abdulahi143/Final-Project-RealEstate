@@ -9,6 +9,7 @@ import Categories from "./components/navbar/Categories";
 import Link from "next/link";
 import getListings, { IListingsParams } from './actions/getListings';
 import getCurrentUser from './actions/getCurrentUser';
+import SearchComponent from './components/hero/SearchComponent';
 
 interface HomeProps {
   searchParams: IListingsParams;
@@ -41,7 +42,7 @@ const Home = async ({ searchParams }: HomeProps) => {
 
   return (
     <ClientOnly>
-      <Hero />
+      <SearchComponent />
       {/* Rent Listings */}
       <div className="ml-4">
         <div className="my-8 ">

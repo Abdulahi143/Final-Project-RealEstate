@@ -12,6 +12,7 @@ const Hero = () => {
             className="w-full opacity-75"
             alt="Hero"
           />
+          
         </div>
 
         {/* Adjusted for center alignment on small screens */}
