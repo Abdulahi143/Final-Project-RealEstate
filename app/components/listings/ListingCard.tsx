@@ -46,7 +46,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   const { getByValue } = useCountries();
 
   const location = getByValue(data.locationValue);
-  const [showArrows, setShowArrows] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState('');
@@ -163,18 +163,18 @@ const parking = (parkingCount: number) => {
       <div className="flex flex-col">
         <div
           className="relative aspect-square overflow-hidden"
-          onMouseEnter={() => setShowArrows(true)}
-          onMouseLeave={() => setShowArrows(false)}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           {/* Left arrow */}
-          {currentIndex > 0 && (
+          {isHovered && currentIndex > 0 && (
           <MdChevronLeft
             className="absolute left-0 top-1/2 z-10 text-white text-3xl cursor-pointer transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1"
             onClick={() => handleNavigate('left')}
           />
         )}
             {/* Right arrow */}
-            {currentIndex < data.imageSrc.length - 1 && (
+            {isHovered && currentIndex < data.imageSrc.length - 1 && (
           <MdChevronRight
             className="absolute right-0 top-1/2 z-10 text-white text-3xl cursor-pointer transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1"
             onClick={() => handleNavigate('right')}
@@ -182,19 +182,19 @@ const parking = (parkingCount: number) => {
         )}
  {/* Images */}
  {data.imageSrc.map((src, index) => (
-          <div
-            key={index}
-            className="absolute inset-0 transition-opacity duration-500 ease-in-out"
-            style={{ opacity: currentIndex === index ? 1 : 0 }}
-          >
-            <Image
-              layout="fill"
-              className="object-cover h-full w-full"
-              src={src}
-              alt={`Listing image ${index + 1}`}
-            />
-          </div>
-        ))}
+    <div
+      key={index}
+      className="absolute inset-0 transition-opacity duration-500 ease-in-out"
+      style={{ opacity: currentIndex === index ? 1 : 0 }}
+    >
+      <Image
+        layout="fill"
+        className="object-cover h-full w-full transform scale-100 group-hover:scale-110 transition-transform duration-300" // Tailwind classes for zoom effect
+        src={src}
+        alt={`Listing image ${index + 1}`}
+      />
+    </div>
+  ))}
             <div
               className="
           absolute

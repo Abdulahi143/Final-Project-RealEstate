@@ -65,7 +65,15 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
             gap-2
           "
         >
-          <div>Renting by {user?.name}</div>
+          {typeof furnished == 'undefined' &&(
+             <div>Selling by {user?.name}</div>
+  )}
+            {typeof furnished !== 'undefined' &&(
+             <div>Renting by {user?.name}</div>
+  )}
+
+
+          
           <Avatar src={user?.image} />
         </div>
         <div className="

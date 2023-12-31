@@ -9,6 +9,7 @@ export interface IListingsParams {
   endDate?: string;
   locationValue?: string;
   category?: string;
+  type?: 'rent' | 'sale'; // Added type field
 }
 
 export default async function getListings(
@@ -24,10 +25,10 @@ export default async function getListings(
       startDate,
       endDate,
       category,
+      type, // Added type field
     } = params;
 
     let query: any = {};
-
 
     if (userId) {
       query.userId = userId;
@@ -59,36 +60,41 @@ export default async function getListings(
       query.locationValue = locationValue;
     }
 
-  // Fetch rent listings
-  const rentListings = await prisma.rentListings.findMany({
-    where: query,
-    orderBy: {
-      createdAt: 'desc'
+    if (type) {
+      // Added condition to filter by type
+      query.type = type;
     }
-  });
 
-  // Fetch sale listings
-  const saleListings = await prisma.saleListings.findMany({
-    where: query,
-    orderBy: {
-      createdAt: 'desc'
-    }
-  });
+    // Fetch rent listings
+    const rentListings = await prisma.rentListings.findMany({
+      where: query,
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
 
-   // Map and combine listings
-   const safeRentListings = rentListings.map(listing => ({
-    ...listing,
-    createdAt: listing.createdAt.toISOString(),
-    type: 'rent' // Add a type field to distinguish the listings
-  }));
+    // Fetch sale listings
+    const saleListings = await prisma.saleListings.findMany({
+      where: query,
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
 
-  const safeSaleListings = saleListings.map(listing => ({
-    ...listing,
-    createdAt: listing.createdAt.toISOString(),
-    type: 'sale' // Add a type field to distinguish the listings
-  }));
+    // Map and combine listings
+    const safeRentListings = rentListings.map(listing => ({
+      ...listing,
+      createdAt: listing.createdAt.toISOString(),
+      type: 'rent' // Add a type field to distinguish the listings
+    }));
 
-  return [...safeRentListings, ...safeSaleListings];
+    const safeSaleListings = saleListings.map(listing => ({
+      ...listing,
+      createdAt: listing.createdAt.toISOString(),
+      type: 'sale' // Add a type field to distinguish the listings
+    }));
+
+    return [...safeRentListings, ...safeSaleListings];
 
   } catch (error: any) {
     throw new Error(error);

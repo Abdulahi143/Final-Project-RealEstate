@@ -25,6 +25,7 @@ export async function POST(
     sizeCount,
     location,
     price,
+    type
    } = body;
 
   Object.keys(body).forEach((value: any) => {
@@ -33,39 +34,47 @@ export async function POST(
     }
   });
 
-  const rentListing = await prisma.rentListings.create({
-    data: {
-      title,
-      description,
-      imageSrc: Array.isArray(imageSrc) ? imageSrc : [imageSrc],
-      category,
-      furnished,
-      parkingCount,
-      roomCount,
-      bathroomCount,
-      sizeCount,
-      locationValue: location.value,
-      price: parseInt(price, 10),
-      userId: currentUser.id
-    }
-  });
+  let listing;
 
+  if (type === 'rent') {
+    listing = await prisma.rentListings.create({
+      data: {
+        title,
+        description,
+        imageSrc: Array.isArray(imageSrc) ? imageSrc : [imageSrc],
+        category,
+        furnished,
+        parkingCount,
+        roomCount,
+        bathroomCount,
+        sizeCount,
+        locationValue: location.value,
+        price: parseInt(price, 10),
+        userId: currentUser.id,
+        type
+      }
+    });
+  } else if (type === 'sale') {
+    listing = await prisma.saleListings.create({
+      data: {
+        title,
+        description,
+        imageSrc: Array.isArray(imageSrc) ? imageSrc : [imageSrc],
+        category,
+        parkingCount,
+        roomCount,
+        bathroomCount,
+        sizeCount,
+        locationValue: location.value,
+        price: parseInt(price, 10),
+        userId: currentUser.id,
+        type
+      }
+    });
+  } else {
+    // Handle invalid type
+    return NextResponse.error();
+  }
 
-  const saleListing = await prisma.saleListings.create({
-    data: {
-      title,
-      description,
-      imageSrc: Array.isArray(imageSrc) ? imageSrc : [imageSrc],
-      category,
-      parkingCount,
-      roomCount,
-      bathroomCount,
-      sizeCount,
-      locationValue: location.value,
-      price: parseInt(price, 10),
-      userId: currentUser.id
-    }
-  });
-
-  return NextResponse.json(rentListing && saleListing);
+  return NextResponse.json(listing);
 }

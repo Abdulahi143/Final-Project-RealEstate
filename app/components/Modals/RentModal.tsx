@@ -61,6 +61,7 @@ const RentModal = () => {
       price: 1,
       title: '',
       description: '',
+      type: 'rent',
     }
   });
 
@@ -246,11 +247,12 @@ const RentModal = () => {
       <div className="flex flex-col gap-8">
         <Heading
           title="Add a photo of your place"
-          subtitle="Show guests what your place looks like!"
+          subtitle="Show renters how your property looks like, the first image is the cover of the listing!"
         />
         <ImageUpload
           onChange={(value) => setCustomValue('imageSrc', value)}
           value={imageSrc}
+          folder="RealEstateDugsiiye"
         />
       </div>
     )

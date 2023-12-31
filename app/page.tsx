@@ -23,6 +23,7 @@ const Home = async ({ searchParams }: HomeProps) => {
   const rentListings = allListings.filter(listing => listing.type === 'rent');
   const saleListings = allListings.filter(listing => listing.type === 'sale');
 
+
   if (allListings.length === 0) {
     // Render empty state if there are no listings
     return (
@@ -30,7 +31,7 @@ const Home = async ({ searchParams }: HomeProps) => {
         <Hero />
         <div className="flex flex-col-reverse sm:flex-row justify-center items-center">
           <div className="sm:w-1/6 order-2 sm:order-1">
-            <Categories />
+            {/* <Categories /> */}
           </div>
           <div className="w-full pt-9 sm:w-3/4 order-1 sm:order-2">
             <EmptyState showReset />
@@ -42,9 +43,10 @@ const Home = async ({ searchParams }: HomeProps) => {
 
   return (
     <ClientOnly>
-      <SearchComponent />
+      <Hero />
+      {/* <SearchComponent /> */}
       {/* Rent Listings */}
-      <div className="ml-4">
+      <div className="ml-24">
         <div className="my-8 ">
           <h1 className="text-2xl font-semibold text-slate-600">Recent Places For Rent</h1>
         </div>
@@ -56,7 +58,7 @@ const Home = async ({ searchParams }: HomeProps) => {
       </div>
       <hr className="my-4" />
       {/* Sale Listings */}
-      <div className="ml-4">
+      <div className="ml-24">
         <div className="my-8">
           <h1 className="text-2xl font-semibold text-slate-600">Recent Places For Sale</h1>
         </div>
