@@ -2,8 +2,8 @@
 import EmptyState from "@/app/components/EmptyState";
 import ClientOnly from "@/app/components/ClientOnly";
 
-import getCurrentUser from "@/app/actions/rentActions/getCurrentUser";
-import getReservations from "@/app/actions/rentActions/getReservations";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import getReservations from "@/app/actions/getReservations";
 
 import TripsClient from "./ReservationsClient";
 

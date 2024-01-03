@@ -1,51 +1,54 @@
 import prisma from "@/app/libs/prismadb";
 
 interface IParams {
-  RentListingsId?: string;
+  listingId?: string;
   userId?: string;
   authorId?: string;
-  listingId?: string;
 }
 
-export default async function getReservations(
-  params: IParams
-) {
+export default async function getReservations(params: IParams) {
   try {
-    const { RentListingsId, userId, authorId } = params;
+    const { listingId, userId, authorId } = params;
 
     const query: any = {};
-        
-    if (RentListingsId) {
-      query.listingId = RentListingsId;
-    };
+
+    if (listingId) {
+      query.OR = [
+        { RentListingsId: listingId },
+        { SaleListingsId: listingId },
+      ];
+    }
 
     if (userId) {
       query.userId = userId;
     }
 
     if (authorId) {
-      query.listing = { userId: authorId };
+      query.OR = [
+        { 'RentListings.userId': authorId },
+        { 'SaleListings.userId': authorId },
+      ];
     }
 
     const reservations = await prisma.reservation.findMany({
       where: query,
       include: {
-        RentListings: true
+        RentListings: true,
+        SaleListings: true,
       },
       orderBy: {
-        createdAt: 'desc'
-      }
+        createdAt: 'desc',
+      },
     });
 
-    const safeReservations = reservations.map(
-      (reservation) => ({
+    const safeReservations = reservations.map((reservation) => ({
       ...reservation,
       createdAt: reservation.createdAt.toISOString(),
       startDate: reservation.startDate.toISOString(),
       endDate: reservation.endDate.toISOString(),
       listing: {
-        ...reservation.RentListings,
-        createdAt: reservation.RentListings.createdAt.toISOString(),
+        ...(reservation.RentListings || reservation.SaleListings),
+        createdAt: (reservation.RentListings || reservation.SaleListings)?.createdAt.toISOString(),
       },
     }));
 

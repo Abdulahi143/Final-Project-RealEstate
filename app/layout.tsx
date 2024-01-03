@@ -11,6 +11,7 @@ import RentModal from './components/Modals/RentModal';
 import RentOrSellModal from './components/Modals/RentOrSellModal';
 import SellModal from './components/Modals/SellModal';
 import Footer from './components/footer/Footer';
+import ContactModal from './components/Modals/ContactModal';
 
 export const metadata = {
   title: 'Dugsiiye Real Estate',
@@ -39,6 +40,7 @@ export default async function RootLayout({
             <RentModal />
             <SellModal />
             <RentOrSellModal />
+            <ContactModal />
             <Navbar currentUser={currentUser} />
           </ClientOnly>
           <div className="flex-grow pb-20 pt-28">{children}</div>

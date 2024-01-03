@@ -14,13 +14,15 @@ import MenuItem from "./MenuItem";
 import Avatar from "../Avatar";
 import useSellOrRentModal from "@/app/hooks/useSellOrRentModal";
 
-interface UserMenuProps {
+export interface UserMenuProps {
   currentUser?: SafeUser | null
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({
   currentUser
 }) => {
+
+  console.log("currentUser", currentUser)
   const router = useRouter();
 
   const loginModal = useLoginModal();
@@ -34,14 +36,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
-
-  // const onRent = useCallback(() => {
-  //   if (!currentUser) {
-  //     return loginModal.onOpen();
-  //   }
-
-  //   rentModal.onOpen();
-  // }, [loginModal, rentModal, currentUser]);
 
   const chooseToSellOrRent = useCallback(() => {
     if (!currentUser) {
@@ -115,10 +109,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
-                <MenuItem 
-                  label="My trips" 
+                {/* <MenuItem 
+                  label="My rents/sales" 
                   onClick={() => router.push('/trips')}
-                />
+                /> */}
                 <MenuItem 
                   label="My favorites" 
                   onClick={() => router.push('/favorites')}

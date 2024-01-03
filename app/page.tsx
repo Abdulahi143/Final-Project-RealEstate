@@ -10,6 +10,7 @@ import Link from "next/link";
 import getListings, { IListingsParams } from './actions/getListings';
 import getCurrentUser from './actions/getCurrentUser';
 import SearchComponent from './components/hero/SearchComponent';
+import TeamSection from './components/team/team';
 
 interface HomeProps {
   searchParams: IListingsParams;
@@ -27,8 +28,9 @@ const Home = async ({ searchParams }: HomeProps) => {
   if (allListings.length === 0) {
     // Render empty state if there are no listings
     return (
-      <ClientOnly>
+      <>
         <Hero />
+        <ClientOnly>
         <div className="flex flex-col-reverse sm:flex-row justify-center items-center">
           <div className="sm:w-1/6 order-2 sm:order-1">
             {/* <Categories /> */}
@@ -38,12 +40,15 @@ const Home = async ({ searchParams }: HomeProps) => {
           </div>
         </div>
       </ClientOnly>
+      </>
+      
     );
   }
 
   return (
-    <ClientOnly>
+    <>
       <Hero />
+      <ClientOnly>
       {/* <SearchComponent /> */}
       {/* Rent Listings */}
       <div className="ml-24">
@@ -68,7 +73,10 @@ const Home = async ({ searchParams }: HomeProps) => {
           ))}
         </div>
       </div>
+      <TeamSection />
     </ClientOnly>
+    </>
+    
   );
 };
 

@@ -101,6 +101,8 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 
         </div>
       </div>
+
+      
       <hr />
       {category && (
         <ListingCategory

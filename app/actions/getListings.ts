@@ -81,18 +81,18 @@ export default async function getListings(
       }
     });
 
-    // Map and combine listings
     const safeRentListings = rentListings.map(listing => ({
       ...listing,
       createdAt: listing.createdAt.toISOString(),
-      type: 'rent' // Add a type field to distinguish the listings
+      type: 'rent' as const, // Ensure type is either "rent" or "sale"
     }));
-
+    
     const safeSaleListings = saleListings.map(listing => ({
       ...listing,
       createdAt: listing.createdAt.toISOString(),
-      type: 'sale' // Add a type field to distinguish the listings
+      type: 'sale' as const, // Ensure type is either "rent" or "sale"
     }));
+    
 
     return [...safeRentListings, ...safeSaleListings];
 

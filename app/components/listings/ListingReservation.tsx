@@ -4,9 +4,11 @@ import { Range } from 'react-date-range';
 
 import Button from "../Button";
 import Calendar from "../inputs/Calendar";
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { formatNumberWithSpaces } from '@/app/libs/formatNumber';
 import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
+import useLoginModal from '@/app/hooks/useLoginModal';
+import useContactModal from '@/app/hooks/useContactModal';
 
 interface ListingReservationProps {
   listing: SafeListing;
@@ -36,6 +38,21 @@ const ListingReservation: React.FC<
   currentUser
 }) => {
 
+  console.log("currentUser", currentUser)
+
+  const loginModal = useLoginModal();
+  const contactModal = useContactModal();
+
+  const contactRenterOrSeller = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+    // Pass the listing information to the contact modal
+    contactModal.onOpen(listing);
+  }, [loginModal, contactModal, currentUser, listing]);
+  
+
+
 
 
   const formattedPrice = useMemo(() => {
@@ -53,8 +70,15 @@ const ListingReservation: React.FC<
     return `$ ${formattedPrice}`;
   }, [listing.price, listing.furnished, reservation]);
 
+  const labelForButton = useMemo(() => {
+    // If listing is not furnished (or undefined), change label to "Buy"
+    return listing.furnished === undefined ? "Buy" : "Rent";
+  }, [listing.furnished]);
 
-
+  const labelForContact = useMemo(() => {
+    // If listing is not furnished (or undefined), change label to "Buy"
+    return listing.furnished === undefined ? "Contact the seller" : "Contact the renter";
+  }, [listing.furnished]);
   
   return ( 
     <div 
@@ -81,14 +105,22 @@ const ListingReservation: React.FC<
           onChangeDate(value.selection)}
       /> */}
       <hr />
-      <div className="p-4">
+      <div className="p-4 space-y-4">
         <Button 
           disabled={disabled} 
-          label="Rent" 
+          label={labelForButton}
           onClick={onSubmit}
         />
-      </div>
+
       <hr />
+      <Button 
+          disabled={disabled} 
+          label={labelForContact}
+          onClick={contactRenterOrSeller}
+        />
+      </div>
+      {/* <hr />
+
       <div 
         className="
           p-4 
@@ -104,9 +136,9 @@ const ListingReservation: React.FC<
           Total
         </div>
         <div>
-          $ {totalPrice}
+          {formattedPrice}
         </div>
-      </div>
+      </div> */}
     </div>
    );
 }

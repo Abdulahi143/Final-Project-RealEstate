@@ -9,7 +9,7 @@ import {
   useForm
 } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { AiFillGithub } from "react-icons/ai";
+import { AiFillFacebook} from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
 import useRegisterModal from "@/app/hooks/useRegisterModal";
@@ -104,9 +104,9 @@ const LoginModal = () => {
       />
       <Button 
         outline 
-        label="Continue with Github"
-        icon={AiFillGithub}
-        onClick={() => signIn('github')}
+        label="Continue with facebook"
+        icon={AiFillFacebook}
+        onClick={() => signIn('facebook')}
       />
       <div className="
       text-neutral-500 text-center mt-4 font-light">
@@ -128,7 +128,7 @@ const LoginModal = () => {
     <Modal
       disabled={isLoading}
       isOpen={loginModal.isOpen}
-      title="Login"
+      title="Log in or sign up"
       actionLabel="Continue"
       onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
