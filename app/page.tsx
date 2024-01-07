@@ -11,6 +11,7 @@ import getListings, { IListingsParams } from './actions/getListings';
 import getCurrentUser from './actions/getCurrentUser';
 import SearchComponent from './components/hero/SearchComponent';
 import TeamSection from './components/team/team';
+import FilterSection from './components/hero/Filter';
 
 interface HomeProps {
   searchParams: IListingsParams;
@@ -48,6 +49,7 @@ const Home = async ({ searchParams }: HomeProps) => {
   return (
     <>
       <Hero />
+      <FilterSection />
       <ClientOnly>
       {/* <SearchComponent /> */}
       {/* Rent Listings */}

@@ -4,16 +4,19 @@ import PhoneInput, { PhoneInputProps } from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 interface PhoneNumberValidationProps {
-  // You can add any additional props needed for your component here
+  name: string;
+  value: string;
+  onChange?: (value: string) => void;
+  disabled?: boolean;
+  required?: boolean;
 }
 
-const PhoneNumberValidation: React.FC<PhoneNumberValidationProps> = () => {
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
+const PhoneNumberValidation: React.FC<PhoneNumberValidationProps> = ({ name, value, onChange, disabled, required }) => {
   const [valid, setValid] = useState<boolean>(true);
 
-  const handleChange = (value: string, data: PhoneInputProps) => {
-    setPhoneNumber(value);
-    setValid(validatePhoneNumber(value));
+  const handleChange = (newValue: string, data: PhoneInputProps) => {
+    // You can pass the updated value to the parent component if needed
+    setValid(validatePhoneNumber(newValue));
   };
 
   const validatePhoneNumber = (phoneNumber: string): boolean => {
@@ -22,20 +25,21 @@ const PhoneNumberValidation: React.FC<PhoneNumberValidationProps> = () => {
   };
 
   return (
-    <div>
-      <label>
+    <div className="mb-4">
+      <label className="block" htmlFor={name}>
         Phone Number:
         <PhoneInput
           country={'so'}
-          value={phoneNumber}
+          value={value}
           onChange={handleChange}
           inputProps={{
             required: true,
+            name: name,
           }}
         />
       </label>
       {!valid && (
-        <p>Please enter a valid phone number.</p>
+        <p className="text-red-500">Please enter a valid phone number.</p>
       )}
     </div>
   );

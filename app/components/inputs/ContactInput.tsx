@@ -5,38 +5,25 @@ import { BiDollar } from 'react-icons/bi';
 
 interface InputProps {
   id: string;
+  name: string; // Add name prop to the interface
   label: string;
   type?: string;
   disabled?: boolean;
   formatPrice?: boolean;
   required?: boolean;
-  register: UseFormRegister<FieldValues>;
-  errors: FieldErrors;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   rows?: number;
 }
 
-interface ContactInputProps {
-  id: string;
-  label: string;
-  disabled: boolean;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  required: true;
-  type: string;
-  rows: number;
-}
-
-const Input: React.FC<InputProps> = ({
+const ContactInput: React.FC<InputProps> = ({
   id,
+  name,
   label,
   type = 'text',
   disabled,
   formatPrice,
-  register,
   required,
-  errors,
   value,
   onChange,
   rows,
@@ -54,9 +41,9 @@ const Input: React.FC<InputProps> = ({
       {isTextarea ? (
         <textarea
           id={id}
+          name={name} 
           disabled={disabled}
-          {...register(id, { required })}
-          placeholder=" "
+          placeholder=""
           rows={rows || 1}
           value={value}
           onChange={onChange}
@@ -74,15 +61,15 @@ const Input: React.FC<InputProps> = ({
             disabled:opacity-70
             disabled:cursor-not-allowed
             pl-4
-            ${errors[id] ? 'border border-red-500' : 'border-neutral-300'}
+             ? 'border border-red-500' : 'border-neutral-300'}
             focus:border-black
           `}
         />
       ) : (
         <input
           id={id}
+          name={name} 
           disabled={disabled}
-          {...register(id, { required })}
           placeholder=" "
           type={type}
           value={value}
@@ -102,7 +89,7 @@ const Input: React.FC<InputProps> = ({
             disabled:cursor-not-allowed
             pl-4
             ${formatPrice ? 'pl-9' : 'pl-4'}
-            ${errors[id] ? 'border border-red-500' : 'border-neutral-300'}
+            ? 'border border-red-500' : 'border-neutral-300'}
             focus:border-black
           `}
         />
@@ -123,7 +110,7 @@ const Input: React.FC<InputProps> = ({
           peer-placeholder-shown:translate-y-0 
           peer-focus:scale-75
           peer-focus:-translate-y-4
-          ${errors[id] ? 'text-red-500' : 'text-zinc-400'}
+          ? 'text-red-500' : 'text-zinc-400'}
         `}
       >
         {label}
@@ -132,4 +119,4 @@ const Input: React.FC<InputProps> = ({
   );
 };
 
-export default Input;
+export default ContactInput;

@@ -8,7 +8,7 @@ import Button from "../Button";
 interface ModalProps {
   isOpen?: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit?: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
@@ -18,7 +18,7 @@ interface ModalProps {
   secondaryActionLabel?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ 
+const SpecialModal: React.FC<ModalProps> = ({ 
   isOpen, 
   onClose, 
   onSubmit, 
@@ -48,12 +48,11 @@ const Modal: React.FC<ModalProps> = ({
   }, [onClose, disabled]);
 
   const handleSubmit = useCallback(() => {
-    if (disabled) {
-      return;
+    if (onSubmit && !disabled) {
+      onSubmit();
     }
-
-    onSubmit();
   }, [onSubmit, disabled]);
+  
 
   const handleSecondaryAction = useCallback(() => {
     if (disabled || !secondaryAction) {
@@ -165,7 +164,7 @@ const Modal: React.FC<ModalProps> = ({
                     w-full
                   "
                 >
-                  {secondaryAction && secondaryActionLabel && (
+                  {/* {secondaryAction && secondaryActionLabel && (
                     <Button 
                       disabled={disabled} 
                       label={secondaryActionLabel} 
@@ -177,7 +176,7 @@ const Modal: React.FC<ModalProps> = ({
                     disabled={disabled} 
                     label={actionLabel} 
                     onClick={handleSubmit}
-                  />
+                  /> */}
                 </div>
                 {footer}
               </div>
@@ -189,4 +188,4 @@ const Modal: React.FC<ModalProps> = ({
   );
 }
 
-export default Modal;
+export default SpecialModal;

@@ -1,30 +1,43 @@
 'use client';
 
+import { ReactNode } from "react";
 import { IconType } from "react-icons";
 
 interface ButtonProps {
-  label: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  label?: string;
+  type?: "button" | "submit" | "reset";
+  onClick: (e: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => void;  // Updated type
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;
   icon?: IconType;
   iconColor?: string;
+  children?: ReactNode;
 }
 
+
 const Button: React.FC<ButtonProps> = ({ 
-  label, 
-  onClick, 
-  disabled, 
+  label,
+  type,
+  onClick,
+  disabled,
   outline,
   small,
   icon: Icon,
   iconColor = "blue",
+  children,
 }) => {
-  return ( 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
+  return (
     <button
+      type={type}
       disabled={disabled}
-      onClick={onClick}
+      onClick={handleClick}
       className={`
         relative
         disabled:opacity-70
@@ -57,5 +70,5 @@ const Button: React.FC<ButtonProps> = ({
     </button>
    );
 }
- 
+
 export default Button;

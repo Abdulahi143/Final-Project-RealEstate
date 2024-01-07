@@ -1,69 +1,45 @@
 'use client';
+
+
 import React from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 import { BiDollar } from 'react-icons/bi';
 
 interface TextAreaProps {
-  id: string;
+  name: string;
   label: string;
   type?: string;
   disabled?: boolean;
-  formatPrice?: boolean;
   required?: boolean;
-  register: UseFormRegister<FieldValues>;
-  errors: FieldErrors;
-  rows?: number; // Added rows prop for textarea height
+  value?: string;
+  register?: UseFormRegister<FieldValues>;
+  errors?: FieldErrors;
+  rows?: number;
+  onChange?: (value: string) => void;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
-  id,
+  name,
   label,
+  value,
   type = 'text',
   disabled,
-  formatPrice,
   register,
   required,
   errors,
-  rows = 3, // Set a default value for rows
+  rows = 3,
 }) => {
   return (
-    <div className="w-full relative">
-      {formatPrice && (
-        <BiDollar
-          size={24}
-          className="
-            text-neutral-700
-            absolute
-            top-5
-            left-2
-          "
-        />
-      )}
+    <div className="w-full relative mb-4">
       <textarea
-        id={id}
+        id={name}
         disabled={disabled}
-        {...register(id, { required })}
         placeholder=" "
-        rows={rows} // Set the rows attribute
-        className={`
-          peer
-          w-full
-          p-4
-          pt-6 
-          font-light 
-          bg-white 
-          border-2
-          rounded-md
-          outline-none
-          transition
-          disabled:opacity-70
-          disabled:cursor-not-allowed
-          ${formatPrice ? 'pl-9' : 'pl-4'}
-          ${errors[id] ? 'border-red-500' : 'border-neutral-300'}
-          ${errors[id] ? 'focus:border-red-500' : 'focus:border-black'}
-        `}
+        rows={rows}
+        
       />
       <label
+        htmlFor={name}
         className={`
           absolute 
           text-md
@@ -73,12 +49,11 @@ const TextArea: React.FC<TextAreaProps> = ({
           top-5 
           z-10 
           origin-[0] 
-          ${formatPrice ? 'left-9' : 'left-4'}
           peer-placeholder-shown:scale-100 
           peer-placeholder-shown:translate-y-0 
           peer-focus:scale-75
           peer-focus:-translate-y-4
-          ${errors[id] ? 'text-red-500' : 'text-zinc-400'}
+           ? 'text-red-500' : 'text-zinc-400'}
         `}
       >
         {label}

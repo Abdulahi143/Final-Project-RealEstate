@@ -38,7 +38,6 @@ const ListingReservation: React.FC<
   currentUser
 }) => {
 
-  console.log("currentUser", currentUser)
 
   const loginModal = useLoginModal();
   const contactModal = useContactModal();

@@ -67,13 +67,13 @@ const ListingHead: React.FC<ListingHeadProps> = ({
         {/* Navigation Arrows */}
         {isHovered && currentIndex > 0 && (
           <MdChevronLeft
-            className="absolute left-0 top-1/2 z-10 text-white text-3xl cursor-pointer transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1"
+            className="absolute left-0 top-1/2 z-0 text-white text-3xl cursor-pointer transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1"
             onClick={() => handleNavigate('left')}
           />
         )}
         {isHovered && currentIndex < imageSrc.length - 1 && (
           <MdChevronRight
-            className="absolute right-0 top-1/2 z-10 text-white text-3xl cursor-pointer transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1"
+            className="absolute right-0 top-1/2 z-0 text-white text-3xl cursor-pointer transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1"
             onClick={() => handleNavigate('right')}
           />
         )}

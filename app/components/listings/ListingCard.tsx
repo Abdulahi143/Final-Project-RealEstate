@@ -168,32 +168,34 @@ const parking = (parkingCount: number) => {
         >
           {/* Left arrow */}
           {isHovered && currentIndex > 0 && (
-          <MdChevronLeft
-            className="absolute left-0 top-1/2 z-10 text-white text-3xl cursor-pointer transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1"
-            onClick={() => handleNavigate('left')}
-          />
-        )}
-            {/* Right arrow */}
-            {isHovered && currentIndex < data.imageSrc.length - 1 && (
-          <MdChevronRight
-            className="absolute right-0 top-1/2 z-10 text-white text-3xl cursor-pointer transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1"
-            onClick={() => handleNavigate('right')}
-          />
-        )}
+  <MdChevronLeft
+    className="absolute left-3 top-1/2 z-10 text-white text-3xl cursor-pointer bg-black bg-opacity-50 rounded-full p-1"
+    onClick={() => handleNavigate('left')}
+  />
+)}
+
+{isHovered && currentIndex < data.imageSrc.length - 1 && (
+  <MdChevronRight
+    className="absolute right-3 top-1/2 z-10 text-white text-3xl cursor-pointer bg-black bg-opacity-50 rounded-full p-1"
+    onClick={() => handleNavigate('right')}
+  />
+)}
+
  {/* Images */}
  {data.imageSrc.map((src, index) => (
     <div
-      key={index}
-      className="absolute inset-0 transition-opacity duration-500 ease-in-out"
-      style={{ opacity: currentIndex === index ? 1 : 0 }}
-    >
-      <Image
-        layout="fill"
-        className="object-cover h-full w-full transform scale-100 group-hover:scale-110 transition-transform duration-300" // Tailwind classes for zoom effect
-        src={src}
-        alt={`Listing image ${index + 1}`}
-      />
-    </div>
+    key={index}
+    className="absolute inset-0 transition-opacity duration-500 ease-in-out cursor-pointer"
+    style={{ opacity: currentIndex === index ? 1 : 0 }}
+    onClick={() => router.push(`/listings/${data.id}`)}
+  >
+    <Image
+      layout="fill"
+      className="object-cover h-full w-full transform scale-100 group-hover:scale-110 transition-transform duration-300"
+      src={src}
+      alt={`Listing image ${index + 1}`}
+    />
+  </div>
   ))}
             <div
               className="
@@ -249,11 +251,12 @@ const parking = (parkingCount: number) => {
           </div>
           {onAction && actionLabel && (
             <Button
-              disabled={disabled}
-              small
-              label={actionLabel}
-              onClick={handleCancel}
-            />
+  disabled={disabled}
+  small
+  label={actionLabel}
+  onClick={(e: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => handleCancel(e as React.MouseEvent<HTMLButtonElement>)}
+/>
+
           )}
         </div>
    
