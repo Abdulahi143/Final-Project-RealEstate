@@ -10,12 +10,20 @@ import ContactInput from '../inputs/ContactInput';
 import Button from '../Button';
 import SpecialModal from './SpecialModal';
 import { usePathname, useRouter } from 'next/navigation';
+import { SafeListing } from '@/app/types';
+
+
+interface ContactModalProps {
+  listing: SafeListing;
+}
+
 
 const ContactModal = () => {
   
   const pathName = usePathname;
   const contactModal = useContactModal();
   const [isLoading, setIsLoading] = useState(false);
+  const listing = useContactModal((state) => state.data);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -32,13 +40,14 @@ const ContactModal = () => {
     }));
   };
 
+  const listingOwner = listing?.user?.email;
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     try {
       setIsLoading(true);
-      const result = await sendEmail(formData);
-
+      const result = await sendEmail(formData, listing?.user?.name || '', listing?.title || '', listing);
+  
       if (result.success) {
         toast.success('Email sent successfully');
       } else {
@@ -57,7 +66,7 @@ const ContactModal = () => {
       });
       contactModal.onClose();
     }
-  };
+  }
 
   useEffect(() => {
 
@@ -131,7 +140,7 @@ const ContactModal = () => {
     <SpecialModal
       disabled={isLoading}
       isOpen={contactModal.isOpen}
-      title="Buy or rent"
+      title="Reach out to the landlord"
       actionLabel="Contact"
       onClose={contactModal.onClose}
       body={bodyContent}

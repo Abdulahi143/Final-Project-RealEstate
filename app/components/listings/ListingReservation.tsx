@@ -1,7 +1,6 @@
 'use client';
 
 import { Range } from 'react-date-range';
-
 import Button from "../Button";
 import Calendar from "../inputs/Calendar";
 import { useCallback, useMemo } from 'react';
@@ -9,18 +8,23 @@ import { formatNumberWithSpaces } from '@/app/libs/formatNumber';
 import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import useContactModal from '@/app/hooks/useContactModal';
+import usePaymentModal from '@/app/hooks/usePaymentModal';
 
 interface ListingReservationProps {
   listing: SafeListing;
   reservation?: SafeReservation;
-  currentUser?: SafeUser | null
   price: number;
-  dateRange: Range,
+  dateRange: Range;
   totalPrice: number;
   onChangeDate: (value: Range) => void;
-  onSubmit: () => void;
+  onSubmit?: () => void;
   disabled?: boolean;
   disabledDates: Date[];
+  currentUser?: SafeUser | null;
+  buyerFee?: number;
+  sellerFee?: number;
+  renterFee?: number;
+  rentOwnerFee?: number;
 }
 
 const ListingReservation: React.FC<
@@ -35,12 +39,17 @@ const ListingReservation: React.FC<
   onSubmit,
   disabled,
   disabledDates,
-  currentUser
+  currentUser,
+  buyerFee,
+  sellerFee,
+  renterFee,
+  rentOwnerFee
 }) => {
 
 
   const loginModal = useLoginModal();
   const contactModal = useContactModal();
+  const paymentModal = usePaymentModal(); 
 
   const contactRenterOrSeller = useCallback(() => {
     if (!currentUser) {
@@ -51,6 +60,16 @@ const ListingReservation: React.FC<
   }, [loginModal, contactModal, currentUser, listing]);
   
 
+
+
+  const onOpenPaymentModal = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+    // Pass the listing information to the contact modal
+    paymentModal.onOpen();
+  }, [loginModal, paymentModal, currentUser, ]);
+  
 
 
 
@@ -79,6 +98,43 @@ const ListingReservation: React.FC<
     return listing.furnished === undefined ? "Contact the seller" : "Contact the renter";
   }, [listing.furnished]);
   
+  const calculateTotalPrice = () => {
+    if (listing.furnished !== undefined) {
+      // For rental listings
+      const renterFeeAmount = renterFee !== undefined ? Math.ceil(price * renterFee) : 0;
+      const rentOwnerFeeAmount = rentOwnerFee !== undefined ? Math.ceil(price * rentOwnerFee) : 0;
+  
+      const total = price + renterFeeAmount + rentOwnerFeeAmount;
+      const roundedTotal = Math.ceil(total);
+  
+      return {
+        renterAmount: renterFeeAmount,
+        ownerAmount: rentOwnerFeeAmount,
+        total: roundedTotal,
+      };
+    } else {
+      // For sale listings
+      const buyerFeeAmount = buyerFee !== undefined ? Math.ceil(price * buyerFee) : 0;
+      const sellerFeeAmount = sellerFee !== undefined ? Math.ceil(price * sellerFee) : 0;
+
+      console.log("buyerFeeAmount", buyerFeeAmount)
+      console.log("sellerFeeAmount", sellerFeeAmount)
+  
+      const total = price + buyerFeeAmount + sellerFeeAmount;
+      const roundedTotal = Math.ceil(total);
+  
+      return {
+        buyerAmount: buyerFeeAmount,
+        sellerAmount: sellerFeeAmount,
+        total: roundedTotal,
+      };
+    }
+  };
+  
+  
+  
+
+
   return ( 
     <div 
       className="
@@ -97,18 +153,56 @@ const ListingReservation: React.FC<
 
       </div>
       <hr />
-      {/* <Calendar
-        value={dateRange}
-        disabledDates={disabledDates}
-        onChange={(value) => 
-          onChangeDate(value.selection)}
-      /> */}
+      
       <hr />
+
+      <div
+  className="
+    p-4
+    flex
+    flex-row
+    items-center
+    justify-between
+    font-semibold
+    text-lg
+  "
+>
+  <div>
+    <span className="text-sm text-gray-500">
+      {listing.furnished !== undefined ? 'Renter Service' : 'Buyer Service'}
+    </span>
+    <br />
+    <span className="text-sm text-gray-500">
+      {listing.furnished !== undefined ? 'Owner Service' : 'Seller Service'}
+    </span>
+    <br />
+    Total
+  </div>
+  <div className="text-right">
+  {listing.furnished !== undefined ? (
+            <>
+              <span className="text-sm text-gray-500">+ $ {calculateTotalPrice().renterAmount}</span>
+              <br />
+              <span className="text-sm text-gray-500">+ $ {calculateTotalPrice().ownerAmount}</span>
+            </>
+          ) : (
+            <>
+              <span className="text-sm text-gray-500">+ $ {calculateTotalPrice().buyerAmount}</span>
+              <br />
+              <span className="text-sm text-gray-500">+ $ {calculateTotalPrice().sellerAmount}</span>
+            </>
+          )}
+    <br />
+    $ {calculateTotalPrice().total} 
+  </div>
+</div>
+
+<hr />
       <div className="p-4 space-y-4">
         <Button 
           disabled={disabled} 
           label={labelForButton}
-          onClick={onSubmit}
+          onClick={onOpenPaymentModal}
         />
 
       <hr />
@@ -118,26 +212,6 @@ const ListingReservation: React.FC<
           onClick={contactRenterOrSeller}
         />
       </div>
-      {/* <hr />
-
-      <div 
-        className="
-          p-4 
-          flex 
-          flex-row 
-          items-center 
-          justify-between
-          font-semibold
-          text-lg
-        "
-      >
-        <div>
-          Total
-        </div>
-        <div>
-          {formattedPrice}
-        </div>
-      </div> */}
     </div>
    );
 }

@@ -27,6 +27,9 @@ const EmptyState: React.FC<EmptyStateProps> = ({
         justify-center 
         items-center 
         text-right  // This aligns text to the right
+        sm:pt-56
+        md:pt-[450px]
+        lg:pt-[450px]
       "
     >
       <Heading

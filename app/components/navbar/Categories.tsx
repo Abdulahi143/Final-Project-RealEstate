@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname, useSearchParams } from 'next/navigation';
-import { AiFillCaretDown, AiFillCaretLeft, AiFillCaretRight, AiFillCaretUp } from "react-icons/ai";
 import { TbBeach, TbMountain, TbPool } from 'react-icons/tb';
 import { 
   GiBarn, 
@@ -18,11 +17,13 @@ import { BsSnow } from 'react-icons/bs';
 import { IoDiamond } from 'react-icons/io5';
 import { MdOutlineVilla } from 'react-icons/md';
 
-import CategoryBox from "../CategoryBox";
-import Container from '../Container';
-import { IconType } from 'react-icons';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import CountryFilter from '../filters/salefilters/CountryInput';
+import getListings, { IListingsParams } from '@/app/actions/getListings';
+import { SafeListing } from '@/app/types';
+import TypeFilter from '../filters/salefilters/Type';
+import BuildTypeFilter from '../filters/salefilters/BuildType';
+import PriceRangeFilter from '../filters/salefilters/PriceFilter';
 
 export const categories = [
   {
@@ -103,70 +104,51 @@ export const categories = [
 ]
 
 
-// Component to handle the category with an arrow to show more
-const CategoryWithArrow = ({ category, Icon }: { category: string; Icon: IconType }) => (
-  <div className="flex flex-col items-center">
-    <Icon className="text-xl" />
-    <span className="text-sm">{category}</span>
-  </div>
-);
-
+interface Listing {
+  listing: SafeListing;
+}
 
 const Categories = () => {
-  const [visibleCategories, setVisibleCategories] = useState(5);
-  const [offset, setOffset] = useState(0);
   const params = useSearchParams();
-  const category = params?.get('category');
   const pathname = usePathname();
-  const isMainPage = pathname === '/';
+  const isMainPage = pathname === '/sales/';
+  const [listings, setListings] = useState<SafeListing[]>([]);
+  const [locationValue, setLocationValue] = useState('');
 
-  if (!isMainPage) {
-    return null;
-  }
+  // if (!isMainPage) {
+  //   return null;
+  // }
 
-  const handleShowMore = () => {
-    // Show 2 more categories at the top
-    setOffset((prev) => (prev - 2 >= 0 ? prev - 2 : 0));
+  // Function to fetch listings based on location value
+  const fetchListings = async (location: string) => {
+    try {
+      const params: IListingsParams = {
+        locationValue: location,
+        // Add other necessary params...
+      };
+
+      const fetchedListings = await getListings(params);
+      setListings(fetchedListings);
+    } catch (error) {
+      console.error('Error fetching listings:', error);
+    }
   };
 
-  const handleShowLess = () => {
-    // Hide 2 categories from the bottom
-    setOffset((prev) => {
-      const newOffset = prev + 2;
-      const maxOffset = categories.length - visibleCategories;
-      return newOffset <= maxOffset ? newOffset : maxOffset;
-    });
-  };
+  useEffect(() => {
+    fetchListings(locationValue);
+  }, [locationValue]);
 
+ 
   return (
-    <div className="flex lg:flex-col items-center space-y-4 pt-10">
-    {offset + visibleCategories < categories.length && (
-      <button onClick={handleShowLess} className="text-xl mr-2 lg:hidden">
-        <AiFillCaretLeft /> {/* Show on small screens */}
-      </button>
-    )}
-
-    <div className="flex lg:flex-col overflow-x-auto lg:overflow-y-auto space-x-2 lg:space-y-2">
-      {categories
-        .slice(offset, offset + visibleCategories)
-        .map((item) => (
-          <CategoryBox
-            key={item.label}
-            label={item.label}
-            icon={item.icon}
-            selected={category === item.label}
-          />
-        ))}
+    <div className="flex items-center space-x-4 pt-10">
+      {/* <CategorySelect label="All" /> */}
+      {/* <CountryFilter label="All Locations"  onLocationChange={setLocationValue}/>
+      <TypeFilter label="All Types" />
+      <BuildTypeFilter label="All Types" />
+      <PriceRangeFilter label="Price Range"/> */}
     </div>
-
-    {offset > 0 && (
-      <button onClick={handleShowMore} className="text-xl ml-2 lg:hidden">
-        <AiFillCaretRight /> {/* Show on small screens */}
-      </button>
-    )}
-  </div>
   );
-}
+};
  
 export default Categories;
 

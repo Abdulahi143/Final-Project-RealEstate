@@ -1,9 +1,9 @@
-"use server"
-
-
+// "use server"
 import { Resend } from "resend";
+import ContactFormEmail from "@/app/components/email/ContactFormEmail";
+import React from "react";
 
-const resend = new Resend(process.env.NEXT_RESEND_API_KEY);
+const resend = new Resend(process.env.NEXT_RESEND_API_KEY || 'DEFAULT_API_KEY');
 
 interface FormData {
   fullName: string;
@@ -12,7 +12,19 @@ interface FormData {
   message: string;
 }
 
-export const sendEmail = async (formData: FormData) => {
+interface ListingData {
+  user?: {
+    email?: string;
+  };
+  title?: string;
+}
+
+export const sendEmail = async (
+  formData: FormData,
+  listingOwner: string,
+  listingTitle: string,
+  listing?: ListingData
+) => {
   const { fullName, email, phoneNumber, message } = formData;
 
   if (!message || typeof message !== "string") {
@@ -23,11 +35,17 @@ export const sendEmail = async (formData: FormData) => {
 
   try {
     await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "qaskaxaji143@gmail.com",
-      subject: `Message from Dugsiiye Real Estate ${fullName}`,
+      from: "Dugsiiye Real Estate <onboarding@resend.dev>",
+      to: listingOwner,
+      subject: `Message from Dugsiiye Real Estate regarding ${listingTitle}`,
       reply_to: email,
-      text: message,
+      react: React.createElement(ContactFormEmail, {
+        fullName,
+        email,
+        message,
+        phoneNumber,
+        listing,
+      }),
     });
 
     return {
@@ -37,7 +55,7 @@ export const sendEmail = async (formData: FormData) => {
     console.error("Error sending email:", error);
     return {
       error: "Failed to send email!",
-      details: error.message || "Unknown error", // Log the error details
+      details: error.message || "Unknown error",
     };
   }
 };

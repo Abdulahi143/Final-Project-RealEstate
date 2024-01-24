@@ -22,14 +22,13 @@ const UserMenu: React.FC<UserMenuProps> = ({
   currentUser
 }) => {
 
-  console.log("currentUser", currentUser)
   const router = useRouter();
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   // const rentModal = useRentModal();
 
-  const rentOrSellMoodal = useSellOrRentModal();
+  const rentOrSellModal = useSellOrRentModal();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,8 +42,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
     }
 
 
-    rentOrSellMoodal.onOpen();
-  }, [loginModal, rentOrSellMoodal, currentUser]);
+    rentOrSellModal.onOpen();
+  }, [loginModal, rentOrSellModal, currentUser]);
 
 
   return ( 
@@ -109,26 +108,28 @@ const UserMenu: React.FC<UserMenuProps> = ({
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
-                {/* <MenuItem 
-                  label="My rents/sales" 
-                  onClick={() => router.push('/trips')}
-                /> */}
                 <MenuItem 
                   label="My favorites" 
                   onClick={() => router.push('/favorites')}
                 />
-                <MenuItem 
-                  label="My reservations" 
-                  onClick={() => router.push('/reservations')}
-                />
+
                 <MenuItem 
                   label="My properties" 
                   onClick={() => router.push('/properties')}
                 />
                 <MenuItem 
                   label="Sell or rent your properties"  
-                  onClick={rentOrSellMoodal.onOpen}
+                  onClick={rentOrSellModal.onOpen}
                 />
+                <hr />
+                {currentUser.isAdmin && (
+  <MenuItem 
+  label="Dashboard" 
+  onClick={() => router.push('/dashboard/admin/')}
+/>
+                )
+                }
+              
                 <hr />
                 <MenuItem 
                   label="Logout" 

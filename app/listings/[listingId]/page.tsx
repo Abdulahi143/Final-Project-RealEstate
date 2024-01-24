@@ -37,7 +37,7 @@ const ListingPage = async ({ params }: { params: IParams }) => {
       {listingToShow && (
         <ListingClient
         listing={listingToShow}
-        reservations={reservations}
+        // reservations={reservations}
         currentUser={currentUser}
       />
       )}

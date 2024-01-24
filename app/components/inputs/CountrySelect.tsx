@@ -15,6 +15,7 @@ export type CountrySelectValue = {
 interface CountrySelectProps {
   value?: CountrySelectValue;
   onChange: (value: CountrySelectValue) => void;
+  label?: string;
 }
 
 const CountrySelect: React.FC<CountrySelectProps> = ({

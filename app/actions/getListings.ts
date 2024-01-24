@@ -1,4 +1,6 @@
+// getListings.ts
 import prisma from "@/app/libs/prismadb";
+import { ListingType } from "@prisma/client";
 
 export interface IListingsParams {
   userId?: string;
@@ -9,7 +11,9 @@ export interface IListingsParams {
   endDate?: string;
   locationValue?: string;
   category?: string;
-  type?: 'rent' | 'sale'; // Added type field
+  type?: ListingType;
+  buildType?: string | null;
+  priceRange?: string;
 }
 
 export default async function getListings(
@@ -25,7 +29,9 @@ export default async function getListings(
       startDate,
       endDate,
       category,
-      type, // Added type field
+      type,
+      buildType,
+      priceRange,
     } = params;
 
     let query: any = {};
@@ -61,13 +67,27 @@ export default async function getListings(
     }
 
     if (type) {
-      // Added condition to filter by type
       query.type = type;
+    }
+
+    if (buildType) {
+      query.buildType = buildType;
+    }
+
+    if (priceRange) {
+      const [minPrice, maxPrice] = priceRange.split('-');
+      query.price = {
+        gte: +minPrice,
+        lte: +maxPrice,
+      };
     }
 
     // Fetch rent listings
     const rentListings = await prisma.rentListings.findMany({
-      where: query,
+      where: {
+        ...query,
+        type: ListingType.RENT,
+      },
       orderBy: {
         createdAt: 'desc'
       }
@@ -75,7 +95,10 @@ export default async function getListings(
 
     // Fetch sale listings
     const saleListings = await prisma.saleListings.findMany({
-      where: query,
+      where: {
+        ...query,
+        type: ListingType.SALE,
+      },
       orderBy: {
         createdAt: 'desc'
       }
@@ -84,15 +107,12 @@ export default async function getListings(
     const safeRentListings = rentListings.map(listing => ({
       ...listing,
       createdAt: listing.createdAt.toISOString(),
-      type: 'rent' as const, // Ensure type is either "rent" or "sale"
     }));
     
     const safeSaleListings = saleListings.map(listing => ({
       ...listing,
       createdAt: listing.createdAt.toISOString(),
-      type: 'sale' as const, // Ensure type is either "rent" or "sale"
     }));
-    
 
     return [...safeRentListings, ...safeSaleListings];
 

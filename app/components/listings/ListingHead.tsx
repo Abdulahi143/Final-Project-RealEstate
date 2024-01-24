@@ -38,7 +38,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
   };
 
   return (
-    <>
+    <div className="mt-24">
       <Heading
         title={title}
         subtitle={`${location?.region}, ${location?.label}`}
@@ -85,7 +85,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

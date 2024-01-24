@@ -12,6 +12,7 @@ export type User = {
   image: string | null;
   hashedPassword: string | null;
   favoriteIds: string[];
+  isAdmin: boolean | null;
 };
 
 export async function getSession() {
@@ -40,10 +41,12 @@ export default async function getCurrentUser(): Promise<User | null> {
       ...currentUser,
       createdAt: currentUser.createdAt.toISOString(),
       updatedAt: currentUser.updatedAt.toISOString(),
-      emailVerified:
-        currentUser.emailVerified?.toISOString() || null,
+      emailVerified: currentUser.emailVerified?.toISOString() || null,
+      isAdmin: currentUser.isAdmin || null, // Assuming isAdmin is a boolean field
     };
   } catch (error: any) {
     return null;
   }
 }
+
+

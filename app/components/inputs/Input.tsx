@@ -1,4 +1,5 @@
 'use client';
+import { validateWordCount } from '@/app/validators/DescriptionValidation';
 import React from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 import { BiDollar } from 'react-icons/bi';
@@ -15,17 +16,7 @@ interface InputProps {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   rows?: number;
-}
-
-interface ContactInputProps {
-  id: string;
-  label: string;
-  disabled: boolean;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  required: true;
-  type: string;
-  rows: number;
+  minWords?: number;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -40,6 +31,7 @@ const Input: React.FC<InputProps> = ({
   value,
   onChange,
   rows,
+  minWords,
 }) => {
   const isTextarea = type === 'textarea';
 
@@ -52,32 +44,44 @@ const Input: React.FC<InputProps> = ({
         />
       )}
       {isTextarea ? (
-        <textarea
-          id={id}
-          disabled={disabled}
-          {...register(id, { required })}
-          placeholder=" "
-          rows={rows || 1}
-          value={value}
-          onChange={onChange}
-          className={`
-            peer
-            w-full
-            p-4
-            pt-6 
-            font-light 
-            bg-white 
-            border-2
-            rounded-md
-            outline-none
-            transition
-            disabled:opacity-70
-            disabled:cursor-not-allowed
-            pl-4
-            ${errors[id] ? 'border border-red-500' : 'border-neutral-300'}
-            focus:border-black
-          `}
-        />
+        <div className="relative">
+          <textarea
+            id={id}
+            disabled={disabled}
+            {...register(id, {
+              required,
+              validate: async (value) => {
+                const validationResponse = validateWordCount(value);
+                return validationResponse.isValid || validationResponse.message;
+              },
+            })}
+            placeholder=" "
+            rows={rows || 1}
+            value={value}
+            onChange={onChange}
+            className={`
+              peer
+              w-full
+              p-4
+              pt-6 
+              font-light 
+              bg-white 
+              border-2
+              rounded-md
+              outline-none
+              transition
+              disabled:opacity-70
+              disabled:cursor-not-allowed
+              pl-4
+              ${errors[id] ? 'border border-red-500' : 'border-neutral-300'}
+              focus:border-black
+            `}
+          />
+          {errors[id] && (
+            <p className="text-red-500">{(errors[id] as any)?.message}</p>
+            // Use "as any" to explicitly cast the error message to ReactNode
+          )}
+        </div>
       ) : (
         <input
           id={id}

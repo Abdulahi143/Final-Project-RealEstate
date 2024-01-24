@@ -20,18 +20,12 @@ const RentOrSellModal: React.FC = () => {
     setSelectedType('rent');
     rentModal.onOpen();
     sellOrRentModal.onClose();
-
-    // Log the selected type when "Rent" is clicked
-    console.log('Selected Type: Rent');
   };
 
   const handleSell = () => {
     setSelectedType('sell');
     sellModal.onOpen();
     sellOrRentModal.onClose();
-
-    // Log the selected type when "Sell" is clicked
-    console.log('Selected Type: Sell');
   };
 
   const bodyContent = (

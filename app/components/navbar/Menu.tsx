@@ -1,4 +1,5 @@
 "use client"
+import Link from "next/link";
 import Router from "next/navigation";
 
 const MenuItems = () => {
@@ -24,7 +25,7 @@ const MenuItems = () => {
           justify-between
         "
       >
-        <a href="/sales">
+        <Link href="/sales">
         <div 
           className="
             text-sm 
@@ -34,8 +35,8 @@ const MenuItems = () => {
         >
           All Sales
         </div>
-        </a>
-        <a href="/rents">
+        </Link>
+        <Link href="/rents">
         <div 
           className="
             hidden 
@@ -48,8 +49,8 @@ const MenuItems = () => {
         >
           All Rents
         </div>
-        </a>
-       <a href="/about">
+        </Link>
+       <Link href="/about">
        <div 
           className="
             hidden 
@@ -61,7 +62,7 @@ const MenuItems = () => {
         >
           About
         </div>
-       </a>
+       </Link>
       </div>
     );
   }

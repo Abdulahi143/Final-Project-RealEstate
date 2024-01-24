@@ -93,7 +93,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 className="absolute top-2 left-2 text-white cursor-pointer"
                 onClick={() => handleDelete(index)}
               >
-                <ImCancelCircle size={20} />
+                <ImCancelCircle size={20} className="text-red-500 bg-slate-400 rounded-xl"/>
               </span>
                 <Image
                   layout="responsive"

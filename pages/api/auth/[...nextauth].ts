@@ -63,7 +63,26 @@ export const authOptions: AuthOptions = {
                 }
             }
         }),
+
+
     ],
+
+    callbacks: {
+        jwt: async({token}) => {
+            const userInfo = await prisma.user.findUnique({ where: { email: token.email ?? '' } });
+            if(userInfo) {
+                userInfo.emailVerified = undefined!;
+                userInfo.hashedPassword = undefined!;
+            }
+
+            token.user = userInfo;
+            return token;
+        },
+        session: async({session, token}) => {
+            session.user = token.user!; 
+            return session;
+        }
+    },
 
     pages: {
         signIn: '/'

@@ -10,7 +10,6 @@ import Categories from "./components/navbar/Categories";
 import Link from "next/link";
 import getListings, { IListingsParams } from './actions/getListings';
 import getCurrentUser, { User } from './actions/getCurrentUser';
-import SearchComponent from './components/hero/SearchComponent';
 import CardsSkeleton from './components/listings/CardsSkeleton';
 
 
@@ -19,7 +18,7 @@ import CardsSkeleton from './components/listings/CardsSkeleton';
 // Specify the type of a listing
 interface Listing {
   createdAt: string;
-  type: 'rent' | 'sale';
+  type: 'RENT' | 'SALE';
   id: string;
   title: string;
   description: string;
@@ -32,6 +31,9 @@ interface Listing {
   locationValue: string;
   userId: string;
   price: number;
+  availability: boolean | null;
+  buildType: string | null;
+  totalPrice: number | null;
 }
 
 interface HomeProps {
@@ -42,13 +44,13 @@ interface HomeProps {
 const HomePage: React.FC<HomeProps> = ({ searchParams }) => {
     const [loading, setLoading] = useState(true);
     const [allListings, setAllListings] = useState<Listing[]>([]);
-    const [user, setUser] = useState<User | null>(null); // Specify the type
+    const [user, setUser] = useState<User | null>(null); 
   
     useEffect(() => {
       const fetchData = async () => {
         try {
           const listings: Listing[] = await getListings(searchParams);
-          const currentUser: User | null = await getCurrentUser(); // Specify the type
+          const currentUser: User | null = await getCurrentUser(); 
   
           setAllListings(listings);
           setUser(currentUser);
@@ -63,12 +65,10 @@ const HomePage: React.FC<HomeProps> = ({ searchParams }) => {
     }, [searchParams]);
 
   if (loading) {
-    // Render loading skeleton while data is being fetched
     return (
       <>
         <Hero />
         <ClientOnly>
-          {/* Use the CardsSkeleton component here */}
           <CardsSkeleton />
         </ClientOnly>
       </>
@@ -76,14 +76,12 @@ const HomePage: React.FC<HomeProps> = ({ searchParams }) => {
   }
 
   if (allListings.length === 0) {
-    // Render empty state if there are no listings
     return (
       <>
         <Hero />
         <ClientOnly>
           <div className="flex flex-col-reverse sm:flex-row justify-center items-center">
             <div className="sm:w-1/6 order-2 sm:order-1">
-              {/* <Categories /> */}
             </div>
             <div className="w-full pt-9 sm:w-3/4 order-1 sm:order-2">
               <EmptyState showReset />
@@ -98,7 +96,6 @@ const HomePage: React.FC<HomeProps> = ({ searchParams }) => {
     <>
       <Hero />
       <ClientOnly>
-        {/* Your actual content */}
         <div className="ml-24">
           <div className="my-8 ">
             <h1 className="text-2xl font-semibold text-slate-600">Recent Places For Rent and Sale</h1>

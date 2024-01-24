@@ -33,6 +33,7 @@ interface ListingInfoProps {
     description: string;
   } | undefined
   locationValue: string;
+  buildType: string | null;
 }
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
@@ -46,6 +47,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   parkingCount,
   category,
   locationValue,
+  buildType
 }) => {
   const { getByValue } = useCountries();
 
@@ -85,23 +87,19 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
             text-neutral-500
           "
         >
+  <div>{buildType === 'apartment' ? 'Apartment' : buildType === 'villa' ? 'Villa': buildType}</div>
   <div>{sizeCount} m²</div>
-  <div>{roomCount} rooms</div>
-  <div>{bathroomCount} bathrooms</div> 
+  <div>{roomCount} Rooms</div>
+  <div>{bathroomCount} Bathrooms</div> 
   <div className="flex items-center gap-1">
-  {parkingCount} parking spaces</div>
+  {parkingCount} Parking spaces</div>
 
   {typeof furnished !== 'undefined' &&(
     <div> {furnished === 'yes' ? "Furnished" : "Not Furnished"}</div>
 
   )}
-
-
-
-
         </div>
       </div>
-
       
       <hr />
       {category && (

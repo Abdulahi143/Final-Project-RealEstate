@@ -1,18 +1,16 @@
+"use client"
 import React from 'react';
 import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 
-
 const Footer = () => {
+
   return (
-    <>
-  
-  
-  <footer className="relative bg-blueGray-200 pt-8 pb-6 flex-shrink-0">
-    <div className="container mx-auto px-4">
-      <div className="flex flex-wrap text-left lg:text-left">
+    <footer className="relative bg-blueGray-200 pt-[340px] pb-6 flex-shrink-0">
+<div className="container mx-auto px-4 mt-12">
+        <div className="flex flex-wrap text-left lg:text-left">
         <div className="w-full lg:w-6/12 px-4">
           <h4 className="text-3xl font-semibold text-blueGray-700">
             Let's keep in touch!
@@ -156,7 +154,6 @@ const Footer = () => {
       </div>
     </div>
   </footer>
-</>
 
   );
 }

@@ -81,3 +81,8 @@
     width: 100%;
   }
 }
+
+
+.blue-track-filler {
+  background-color: green !important; /* Add !important to ensure it overrides other styles */
+}

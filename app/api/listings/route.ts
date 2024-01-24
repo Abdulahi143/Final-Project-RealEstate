@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import { ListingType } from "@prisma/client";
 
-export async function POST(
-  request: Request, 
-) {
+export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
@@ -13,7 +11,7 @@ export async function POST(
   }
 
   const body = await request.json();
-  const { 
+  const {
     title,
     description,
     imageSrc,
@@ -25,8 +23,10 @@ export async function POST(
     sizeCount,
     location,
     price,
-    type
-   } = body;
+    type, // Capitalize the property to match the enum
+    availability,
+    buildType,
+  } = body;
 
   Object.keys(body).forEach((value: any) => {
     if (!body[value]) {
@@ -36,7 +36,7 @@ export async function POST(
 
   let listing;
 
-  if (type === 'rent') {
+  if (type === 'RENT') {
     listing = await prisma.rentListings.create({
       data: {
         title,
@@ -51,10 +51,13 @@ export async function POST(
         locationValue: location.value,
         price: parseInt(price, 10),
         userId: currentUser.id,
-        type
-      }
+        type: ListingType.RENT, // Make sure 'type' is included
+        availability: availability ?? true,
+        buildType,
+      },
     });
-  } else if (type === 'sale') {
+  } else if (type === 'SALE') {
+
     listing = await prisma.saleListings.create({
       data: {
         title,
@@ -68,8 +71,10 @@ export async function POST(
         locationValue: location.value,
         price: parseInt(price, 10),
         userId: currentUser.id,
-        type
-      }
+        type: ListingType.SALE, // Make sure 'type' is included
+        availability: availability ?? true,
+        buildType,
+      },
     });
   } else {
     // Handle invalid type

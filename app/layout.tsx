@@ -10,9 +10,11 @@ import SearchModal from './components/Modals/SearchModal';
 import RentModal from './components/Modals/RentModal';
 import RentOrSellModal from './components/Modals/RentOrSellModal';
 import SellModal from './components/Modals/SellModal';
-import Footer from './components/footer/Footer';
 import ContactModal from './components/Modals/ContactModal';
 import MessageModal from './components/Modals/SuccessFullyMoal';
+import NextAuthProvider from './providers/NextAuthProvider';
+import FootersManagement from './Footers';
+import PaymentModal from './components/Modals/PaymentModal';
 
 export const metadata = {
   title: 'Dugsiiye Real Estate',
@@ -24,29 +26,31 @@ const font = Nunito({
 });
 
 export default async function RootLayout({
-  children,
+  children, 
 }: {
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
-
   return (
     <html lang="en">
       <body className={font.className}>
-          <ClientOnly>
-            <ToasterProvider />
-            <LoginModal />
-            <RegisterModal />
-            <SearchModal />
-            <RentModal />
-            <SellModal />
-            <RentOrSellModal />
-            <ContactModal />
-            <MessageModal />
-            <Navbar currentUser={currentUser} />
-          </ClientOnly>
-          <div className="flex-grow pb-20 pt-28">{children}</div>
-          <Footer />
+        <NextAuthProvider>
+        <Navbar currentUser={currentUser} />
+<ClientOnly>
+  <ToasterProvider />
+  <LoginModal />
+  <RegisterModal />
+  <SearchModal />
+  <RentModal />
+  <SellModal />
+  <RentOrSellModal />
+  <ContactModal />
+  <MessageModal />
+  <PaymentModal />
+</ClientOnly>
+{children}
+<FootersManagement />
+        </NextAuthProvider>
       </body>
     </html>
   );

@@ -1,23 +1,102 @@
-import React from 'react'
+"use client"
+import { sendEmail } from "@/app/api/contact/route";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 
-const ContactForm = () => {
+const ContactSectionClient = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    message: '',
+    phoneNumber: '',
+  });
+
+  const [validationErrors, setValidationErrors] = useState({
+    fullName: '',
+    email: '',
+    message: '',
+    phoneNumber: '',
+  });
+
+  const validateInputs = () => {
+    let isValid = true;
+    const errors = {
+      fullName: '',
+      email: '',
+      message: '',
+      phoneNumber: '',
+    };
+
+    // Validate each input
+    if (!formData.fullName) {
+      errors.fullName = 'Full name is required';
+      isValid = false;
+    }
+
+    if (!formData.email) {
+      errors.email = 'Email is required';
+      isValid = false;
+    }
+
+    // Add more validation rules as needed
+
+    setValidationErrors(errors);
+    return isValid;
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateInputs()) {
+      // Stop form submission if validation fails
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const result = await sendEmail(
+        formData,
+        "Just Hanging",
+        "Just Hanging Man"
+      );
+
+      if (result.success) {
+        toast.success('Email sent successfully');
+      } else {
+        toast.error(result.error || 'Failed to send email!');
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast.error('Internal server error');
+    } finally {
+      setIsLoading(false);
+      setFormData({
+        fullName: '',
+        email: '',
+        message: '',
+        phoneNumber: '',
+      });
+    }
+  };
   return (
     <>
-  <link
-    rel="stylesheet"
-    href="https://cdn.tailgrids.com/tailgrids-fallback.css"
-  />
-  {/* ====== Contact Section Start */}
-  <section className="bg-white py-20 lg:py-[120px] overflow-hidden relative z-10">
-    <div className="container">
-      <div className="flex flex-wrap lg:justify-between -mx-4">
-        <div className="w-full lg:w-1/2 xl:w-6/12 px-4">
-          <div className="max-w-[570px] mb-12 lg:mb-0">
-            <span className="block mb-4 text-base text-primary font-semibold">
-              Contact Us
-            </span>
-            <h2
-              className="
+      <link
+        rel="stylesheet"
+        href="https://cdn.tailgrids.com/tailgrids-fallback.css"
+      />
+      {/* ====== Contact Section Start */}
+      <section className="bg-white py-20 lg:py-[120px] overflow-hidden relative z-10">
+        <div className="container">
+          <div className="flex flex-wrap lg:justify-between -mx-4">
+            <div className="w-full lg:w-1/2 xl:w-6/12 px-4">
+              <div className="max-w-[570px] mb-12 lg:mb-0">
+                <span className="block mb-4 text-dark text-dark font-semibold">
+                  Contact Us
+                </span>
+                <h2
+                  className="
             text-dark
             mb-6
             uppercase
@@ -27,109 +106,74 @@ const ContactForm = () => {
             lg:text-[36px]
             xl:text-[40px]
             "
-            >
-              GET IN TOUCH WITH US
-            </h2>
-            <p className="text-base text-body-color leading-relaxed mb-9">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eius tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              adiqua minim veniam quis nostrud exercitation ullamco
-            </p>
-          </div>
-        </div>
-        <div className="w-full lg:w-1/2 xl:w-5/12 px-4">
-          <div className="bg-white relative rounded-lg p-8 sm:p-12 shadow-lg">
-            <form>
-              <div className="mb-6">
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  className="
-                  w-full
-                  rounded
-                  py-3
-                  px-[14px]
-                  text-body-color text-base
-                  border border-[f0f0f0]
-                  outline-none
-                  focus-visible:shadow-none
-                  focus:border-primary
-                  "
-                />
-              </div>
-              <div className="mb-6">
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  className="
-                  w-full
-                  rounded
-                  py-3
-                  px-[14px]
-                  text-body-color text-base
-                  border border-[f0f0f0]
-                  outline-none
-                  focus-visible:shadow-none
-                  focus:border-primary
-                  "
-                />
-              </div>
-              <div className="mb-6">
-                <input
-                  type="text"
-                  placeholder="Your Phone"
-                  className="
-                  w-full
-                  rounded
-                  py-3
-                  px-[14px]
-                  text-body-color text-base
-                  border border-[f0f0f0]
-                  outline-none
-                  focus-visible:shadow-none
-                  focus:border-primary
-                  "
-                />
-              </div>
-              <div className="mb-6">
-                <textarea
-                  rows={6}
-                  placeholder="Your Message"
-                  className="
-                  w-full
-                  rounded
-                  py-3
-                  px-[14px]
-                  text-body-color text-base
-                  border border-[f0f0f0]
-                  resize-none
-                  outline-none
-                  focus-visible:shadow-none
-                  focus:border-primary
-                  "
-                  defaultValue={""}
-                />
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="
-                  w-full
-                  text-white
-                  bg-primary
-                  rounded
-                  border border-primary
-                  p-3
-                  transition
-                  hover:bg-opacity-90
-                  "
                 >
-                  Send Message
-                </button>
+                  GET IN TOUCH WITH{" "}
+                  <span className=" text-green-500">Dugsiiye</span>
+                </h2>
+                <p className="text-base text-body-color leading-relaxed mb-9">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eius tempor incididunt ut labore et dolore magna aliqua. Ut
+                  enim adiqua minim veniam quis nostrud exercitation ullamco
+                </p>
               </div>
-            </form>
-            <div>
+            </div>
+            <div className="w-full lg:w-1/2 xl:w-5/12 px-4">
+              <div className="bg-white relative rounded-lg p-8 sm:p-12 shadow-lg">
+              <form onSubmit={onSubmit}>
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Your Name"
+          value={formData.fullName}
+          onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+          className="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] outline-none focus-visible:shadow-none focus:border-green-500"
+        />
+        <span className="text-red-500">{validationErrors.fullName}</span>
+      </div>
+      <div className="mb-6">
+        <input
+          type="email"
+          placeholder="Your Email"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          className="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] outline-none focus-visible:shadow-none focus:border-green-500"
+        />
+        <span className="text-red-500">{validationErrors.email}</span>
+      </div>
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Your Phone"
+          value={formData.phoneNumber}
+          onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+          className="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] outline-none focus-visible:shadow-none focus:border-green-500"
+        />
+        <span className="text-red-500">{validationErrors.phoneNumber}</span>
+      </div>
+      <div className="mb-6">
+        <textarea
+          rows={6}
+          placeholder="Your Message"
+          value={formData.message}
+          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+          className="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] resize-none outline-none focus-visible:shadow-none focus:border-green-500"
+          defaultValue={''}
+        />
+        <span className="text-red-500">{validationErrors.message}</span>
+      </div>
+      <div>
+        <button
+          type="submit"
+          className="w-full text-white bg-green-500 rounded border border-dark p-3 transition hover:bg-opacity-90"
+        >
+          Send Message
+        </button>
+      </div>
+    </form>
+                <div>
               <span className="absolute -top-10 -right-9 z-[-1]">
+
+                {/* First one */}
                 <svg
                   width={100}
                   height={100}
@@ -141,7 +185,7 @@ const ContactForm = () => {
                     fillRule="evenodd"
                     clipRule="evenodd"
                     d="M0 100C0 44.7715 0 0 0 0C55.2285 0 100 44.7715 100 100C100 100 100 100 0 100Z"
-                    fill="#3056D3"
+                    fill="#4CAF50"
                   />
                 </svg>
               </span>
@@ -366,7 +410,7 @@ const ContactForm = () => {
                 </svg>
               </span>
               <span className="absolute -left-7 -bottom-7 z-[-1]">
-                <svg
+ <svg
                   width={107}
                   height={134}
                   viewBox="0 0 107 134"
@@ -936,15 +980,15 @@ const ContactForm = () => {
                 </svg>
               </span>
             </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-  {/* ====== Contact Section End */}
-</>
+      </section>
+      {/* ====== Contact Section End */}
+    </>
+  );
+};
 
-  )
-}
+export default ContactSectionClient;
 
-export default ContactForm
