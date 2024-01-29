@@ -9,7 +9,6 @@ interface UserMenuProps {
 
 const View = ({ currentUser }: UserMenuProps) => {
   const userImage = currentUser?.image;
-  console.log("UserImage", userImage);
 
   return (
     <div className='pt-24'>

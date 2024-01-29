@@ -49,7 +49,7 @@ const ListingReservation: React.FC<
 
   const loginModal = useLoginModal();
   const contactModal = useContactModal();
-  const paymentModal = usePaymentModal(); 
+  const paymentModal = usePaymentModal();
 
   const contactRenterOrSeller = useCallback(() => {
     if (!currentUser) {
@@ -67,10 +67,9 @@ const ListingReservation: React.FC<
       return loginModal.onOpen();
     }
     // Pass the listing information to the contact modal
-    paymentModal.onOpen();
-  }, [loginModal, paymentModal, currentUser, ]);
+    paymentModal.onOpen(listing);
+  }, [loginModal, paymentModal, currentUser, listing]);
   
-
 
 
   const formattedPrice = useMemo(() => {
@@ -117,8 +116,6 @@ const ListingReservation: React.FC<
       const buyerFeeAmount = buyerFee !== undefined ? Math.ceil(price * buyerFee) : 0;
       const sellerFeeAmount = sellerFee !== undefined ? Math.ceil(price * sellerFee) : 0;
 
-      console.log("buyerFeeAmount", buyerFeeAmount)
-      console.log("sellerFeeAmount", sellerFeeAmount)
   
       const total = price + buyerFeeAmount + sellerFeeAmount;
       const roundedTotal = Math.ceil(total);

@@ -14,8 +14,7 @@ interface SalesClientProps {
 }
 
 const SalesClient = ({listings, getListings}: SalesClientProps) => {
-    const allListings = 
-console.log("listings", listings)
+
     return ( 
         <Container>
             <Heading

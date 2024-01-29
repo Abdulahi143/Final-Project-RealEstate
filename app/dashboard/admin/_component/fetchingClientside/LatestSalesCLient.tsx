@@ -11,8 +11,8 @@ interface PropertiesClientProps {
   }
   
   
-  const LatestRentsClients: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users }) => {
-    const filteredListings = listings.filter((listing) => listing.type === "RENT" && listing.availability);
+  const LatestSalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users }) => {
+    const filteredListings = listings.filter((listing) => listing.type === "SALE" && listing.availability);
   
     const findUserById = (userId: string) => {
       return users?.find((user) => user.id === userId);
@@ -68,5 +68,5 @@ interface PropertiesClientProps {
     );
   };
   
-  export default LatestRentsClients;
+  export default LatestSalesClient;
   

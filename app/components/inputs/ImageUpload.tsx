@@ -44,7 +44,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         if (error) {
           console.error("Error deleting image from Cloudinary:", error);
         } else {
-          console.log("Image deleted from Cloudinary");
         }
       });
     }

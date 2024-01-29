@@ -24,6 +24,7 @@ const SalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users
   const listingsPerPage = 10;
 
 
+
   const onDelete = useCallback(
     (id: string) => {
       setDeletingId(id);
@@ -56,6 +57,7 @@ const SalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users
   };
   
 
+
   // Pagination
   const totalPages = Math.ceil(filteredListings.length / listingsPerPage);
   const indexOfLastListing = currentPage * listingsPerPage;
@@ -66,8 +68,7 @@ const SalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users
 
   return (
     <Container>
-      <div className="mb-4 lg:mx-64  flex items-center">
-        <div className="relative mr-4">
+       <div className="relative mt-24">
           <input
             type="text"
             placeholder="Search..."
@@ -77,8 +78,6 @@ const SalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users
           />
           <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500" />
         </div>
-        {/* Add other filters as needed */}
-      </div>
 
       <div className="flex items-center justify-center space-x-4">
           <div
@@ -98,7 +97,7 @@ const SalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users
             Sold Listings
           </div>
         </div>
-      <div className="relative lg:mx-64 py-4 overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="relative py-4 overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>

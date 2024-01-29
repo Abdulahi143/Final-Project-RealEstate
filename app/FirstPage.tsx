@@ -11,6 +11,7 @@ import Link from "next/link";
 import getListings, { IListingsParams } from './actions/getListings';
 import getCurrentUser, { User } from './actions/getCurrentUser';
 import CardsSkeleton from './components/listings/CardsSkeleton';
+import { SafeListing } from './types';
 
 
 
@@ -102,11 +103,11 @@ const HomePage: React.FC<HomeProps> = ({ searchParams }) => {
           </div>
           <div className="pt-18 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
             {allListings.slice(0, 5).map(listing => (
-              <ListingCard currentUser={user} key={listing.id} data={listing} />
+             <ListingCard currentUser={user} key={listing.id} data={listing as SafeListing} />
             ))}
           </div>
         </div>
-      </ClientOnly>
+      </ClientOnly> 
     </>
   );
 };

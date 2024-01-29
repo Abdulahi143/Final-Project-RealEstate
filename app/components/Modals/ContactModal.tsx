@@ -25,6 +25,7 @@ const ContactModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const listing = useContactModal((state) => state.data);
 
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',

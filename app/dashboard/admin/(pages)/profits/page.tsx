@@ -2,6 +2,14 @@ import React from 'react'
 
 const OverView = () => {
   return (
+
+    <div
+    id="main-content"
+    className="h-full mt-12 w-full  relative overflow-y-auto"
+  >
+
+
+ 
     <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
     <h3 className="text-xl leading-none font-bold text-gray-900 mb-10">
       Profits Overview
@@ -157,6 +165,7 @@ const OverView = () => {
         </tbody>
       </table>
     </div>
+  </div>
   </div>
   )
 }

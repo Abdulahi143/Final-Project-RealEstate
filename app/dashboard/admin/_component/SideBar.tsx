@@ -1,81 +1,189 @@
-"use client"
-import { AiOutlineDashboard } from 'react-icons/ai';
+"use client";
+
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import React, { useState } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { usePathname } from "next/navigation";
+
+// icons
+
+
 import { HiOutlineCurrencyDollar } from 'react-icons/hi';
-import { MdOutlineSell } from 'react-icons/md';
+import { MdOutlineSell, MdSell } from 'react-icons/md';
 import { LiaKeySolid } from 'react-icons/lia';
 import { PiUsersFourThin } from 'react-icons/pi';
 import { IoSettingsOutline } from 'react-icons/io5';
-import Link from 'next/link';
-import {usePathname} from 'next/navigation'
 
-export const SideBar2 = () => {
 
-  const pathName = usePathname();
+import { GoHome, GoHomeFill } from "react-icons/go";
+import { RiArrowLeftDoubleFill } from "react-icons/ri";
+import { FaXTwitter } from "react-icons/fa6";
+import { FiSearch } from "react-icons/fi";
+import { CiSearch } from "react-icons/ci";
+import { BsFillBellFill, BsBell } from "react-icons/bs";
+import { TbMailFilled, TbMail } from "react-icons/tb";
+import { HiUsers } from "react-icons/hi";
+import { HiCurrencyDollar, HiOutlineUsers } from "react-icons/hi2";
+import { BiSolidUser, BiUser } from "react-icons/bi";
+import { PiNotepadFill, PiNotepad } from "react-icons/pi";
+import { GiHouseKeys } from "react-icons/gi";
+import { IoMdSettings } from "react-icons/io";
+import { FaKey } from "react-icons/fa";
+
+type Props = {};
+
+interface SideNavItemType {
+  icon?: {
+    icon: React.ReactNode;
+    fillIcon: React.ReactNode;
+  };
+  label: string;
+  href: string;
+}
+
+const sidebarItmes: SideNavItemType[] = [
+  {
+    icon: {
+      icon: <GoHome />,
+      fillIcon: <GoHomeFill />
+    },
+    label: "Home",
+    href: "/dashboard/admin"
+  },
+  {
+    icon: {
+      icon: <HiOutlineCurrencyDollar />,
+      fillIcon: <HiCurrencyDollar />
+    },
+    label: "Profits",
+    href: "/dashboard/admin/profits"
+  },
+  {
+    icon: {
+      icon: <MdOutlineSell />,
+      fillIcon: <MdSell />
+    },
+    label: "Sales",
+    href: "/dashboard/admin/sales"
+  },
+  {
+    icon: {
+      icon: <LiaKeySolid />,
+      fillIcon: <FaKey />
+    },
+    label: "Rents",
+    href: "/dashboard/admin/rents"
+  },
+  {
+    icon: {
+      icon: <HiOutlineUsers />,
+      fillIcon: <HiUsers />
+    },
+    label: "Users",
+    href: "/dashboard/admin/users"
+  },
+
+  {
+    icon: {
+      icon: <IoSettingsOutline />,
+      fillIcon: <IoMdSettings />
+    },
+    label: "Settings ",
+    href: "/dashboard/admin/settings"
+  }
+];
+export default function Sidebar({}: Props) {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+
   return (
-    <>
-      <div className="relative bg-gray-50 dark:bg-slate-900 pattern">
-        <nav className="z-20 flex shrink-0 grow-0 justify-around gap-4 border-t border-gray-200 bg-white/50 p-2.5 shadow-lg backdrop-blur-lg dark:border-slate-600/60 dark:bg-slate-800/50 fixed top-2/4 -translate-y-2/4 left-6 min-h-[auto] min-w-[64px] flex-col rounded-lg border">
-        <Link
-            href="/dashboard/admin"
-            className={`flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 ${
-              pathName === '/dashboard/admin' ? 'bg-green-200 text-green-600' : 'hover:bg-gray-100 dark:hover:bg-slate-800'
-            } text-gray-700 dark:text-gray-400 transition duration-300`}
-          >
-            <AiOutlineDashboard className="w-6 h-6 text-gray-500  flex-shrink-0 transition duration-75" />
-            <small className="text-center text-xs font-medium">Dashboard</small>
-          </Link>
+    <div
+      className={cn(
+        "min-h-screen max-h-screen overflow-y-auto w-fit md:pr-8 pr-3 pt-24 flex flex-col gap-3 border-r-[1px] pl-[50px]",
+        isSidebarOpen && "md:w-[250px]"
+      )}
+    >
 
-          <Link
-            href="/dashboard/admin/profits"
-            className={`flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 ${
-              pathName === '/dashboard/admin/profits' ? 'bg-green-200 text-green-600' : 'hover:bg-gray-100 dark:hover:bg-slate-800'
-            } text-gray-700 dark:text-gray-400 transition duration-300`}
-          >
-            <HiOutlineCurrencyDollar className="w-6 h-6 text-gray-500  flex-shrink-0 transition duration-75" />
-            <small className="text-center text-xs font-medium">Profits</small>
-          </Link>
 
-          <Link
-            href="/dashboard/admin/sales"
-            className={`flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 ${
-              pathName === '/dashboard/admin/sales' ? 'bg-green-200 text-green-600' : 'hover:bg-gray-100 dark:hover:bg-slate-800'
-            } text-gray-700 dark:text-gray-400 transition duration-300`}
-          >
-            <MdOutlineSell className="w-6 h-6 text-gray-500  flex-shrink-0 transition duration-75" />
-            <small className="text-center text-xs font-medium">Sales</small>
-          </Link>
+      {/* sidenavitems */}
 
-          <Link
-            href="/dashboard/admin/rents"
-            className={`flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 ${
-              pathName === '/dashboard/admin/rents' ? 'bg-green-200 text-green-600' : 'hover:bg-gray-100 dark:hover:bg-slate-800'
-            } text-gray-700 dark:text-gray-400 transition duration-300`}
-          >
-            <LiaKeySolid className="w-6 h-6 text-gray-500  flex-shrink-0 transition duration-75" />
-            <small className="text-center text-xs font-medium">Rents</small>
-          </Link>
+      {sidebarItmes.map((d, i) => (
+        <HoverContainer key={i}>
+          <SideNavItem
+            icon={d.icon}
+            href={d.href}
+            isSidebarOpen={isSidebarOpen}
+            label={d.label}
+          />
+        </HoverContainer>
+      ))}
 
-          <Link
-            href="/dashboard/admin/users"
-            className={`flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 ${
-              pathName === '/dashboard/admin/users' ? 'bg-green-200 text-green-600' : 'hover:bg-gray-100 dark:hover:bg-slate-800'
-            } text-gray-700 dark:text-gray-400 transition duration-300`}
-          >
-            <PiUsersFourThin className="w-6 h-6 text-gray-500  flex-shrink-0 transition duration-75" />
-            <small className="text-center text-xs font-medium">Users</small>
-          </Link>
-
-          <Link
-            href="/dashboard/admin/settings"
-            className={`flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 ${
-              pathName === '/dashboard/admin/settings' ? 'bg-green-200 text-green-600' : 'hover:bg-gray-100 dark:hover:bg-slate-800'
-            } text-gray-700 dark:text-gray-400 transition duration-300`}
-          >
-            <IoSettingsOutline className="w-6 h-6 text-gray-500  flex-shrink-0 transition duration-75" />
-            <small className="text-center text-xs font-medium">Settings</small>
-          </Link>
-        </nav>
-      </div>
-    </>
+      {/* toggle button  */}
+      <section
+        className={cn(
+          "hidden md:flex w-ful  justify-end",
+          !isSidebarOpen && "justify-start"
+        )}
+      >
+        <HoverContainer>
+          <RiArrowLeftDoubleFill
+            onClick={() => setSidebarOpen(!isSidebarOpen)}
+            className={cn(
+              "text-gray-400 transition-all text-4xl",
+              !isSidebarOpen && "rotate-180"
+            )}
+          />
+        </HoverContainer>
+      </section>
+    </div>
   );
-};
+}
+
+function SideNavItem({
+  href,
+  isSidebarOpen,
+  icon,
+  label
+}: SideNavItemType & { isSidebarOpen: boolean }) {
+  const [animationParent] = useAutoAnimate();
+  const pathname = usePathname();
+  const isActivePage = pathname == href;
+  return (
+    <Link
+      ref={animationParent}
+      href={href}
+      className="flex gap-2 items-center cursor-pointer"
+    >
+      {/* icon */}
+      <div className="w-[35px] h-[35px] text-3xl">
+        {/* <FaXTwitter /> */}
+        {isActivePage ? icon?.fillIcon : icon?.icon}
+      </div>
+      {/* label */}
+      {isSidebarOpen && (
+        <p
+          className={cn(
+            "text-xl hidden md:block pr-4  transition-all ",
+            isActivePage && "font-bold"
+          )}
+        >
+          {label}
+        </p>
+      )}
+    </Link>
+  );
+}
+
+function HoverContainer({
+  children,
+  className
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div >
+      {children}
+    </div>
+  );
+}

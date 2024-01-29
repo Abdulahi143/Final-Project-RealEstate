@@ -1,5 +1,5 @@
 import React from 'react'
-import ContactSectionClient from './ContactListingCard'
+import ContactSectionClient from './ContactSectionClient'
 
 const ContactSection = () => {
   return (

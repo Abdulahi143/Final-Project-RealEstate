@@ -2,13 +2,15 @@ import { create } from 'zustand';
 
 interface PaymentModalStore {
   isOpen: boolean;
-  onOpen: () => void;
+  data?: any; // Add a property to store additional data
+  onOpen: (data?: any) => void; // Modify onOpen to accept data
   onClose: () => void;
 }
 
+
 const usePaymentModal = create<PaymentModalStore>((set) => ({
   isOpen: false,
-  onOpen: () => set({ isOpen: true }),
+  onOpen: (data) => set({ isOpen: true, data }),
   onClose: () => set({ isOpen: false })
 }));
 

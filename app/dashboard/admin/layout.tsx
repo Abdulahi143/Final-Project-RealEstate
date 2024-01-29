@@ -1,18 +1,14 @@
-import React from 'react'
-import { SideBar2 } from './_component/SideBar'
-import DashboardFooter from './_component/DFooter'
 
+import React from 'react';
+import Sidebar from './_component/sideBar';
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
-    return (
-        <>
-                {/* <SideBar /> */}
-                <SideBar2 />
-
-                <div className="flex-grow pb-20 pt-8">{children}</div>
-
-        </>
-    )
+  return (
+    <div className="dark:text-white dark:bg-black flex mt-2">
+      <Sidebar />
+      <div className="p-8 flex-1">{children}</div>
+    </div>
+  );
 }
 
-export default AdminLayout
+export default AdminLayout;

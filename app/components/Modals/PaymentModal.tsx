@@ -1,16 +1,12 @@
 'use client';
-// ... (existing imports)
-import React, { useState, useEffect } from 'react';
-import { toast } from 'react-hot-toast';
-import Modal from './Modal';
-import Heading from '../Heading';
-import { sendEmail } from '@/app/api/contact/route';
-import ContactInput from '../inputs/ContactInput';
-import Button from '../Button';
+import React, { useState } from 'react';
 import SpecialModal from './SpecialModal';
 import { usePathname, useRouter } from 'next/navigation';
 import usePaymentModal from '@/app/hooks/usePaymentModal';
 import { TbBrandStripe } from 'react-icons/tb';
+import { API } from '@/lib/config';
+import axios from 'axios';
+import { SafeListing } from '@/app/types';
 
 
 const localPayments = [
@@ -37,14 +33,18 @@ const localPayments = [
     }
   ]
 
+  interface PaymentModalProps {
+    listing: SafeListing;
+  }
+  
+
 
 const PaymentModal = () => {
   
   const pathName = usePathname;
-  const paymentModal = usePaymentModal(); 
   const [isLoading, setIsLoading] = useState(false);
-
-
+  const paymentModal = usePaymentModal();
+  const listing = usePaymentModal((state) => state.data);
 
   const [paymentMethod, setPaymentMethod] = useState<'online' | 'local' | null>(null);
 
@@ -57,8 +57,6 @@ const PaymentModal = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('submitted');
   };
 
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,25 +64,40 @@ const PaymentModal = () => {
   };
 
   const handleStripeSession = async () => {
-
     try {
+        // Log the request payload for debugging purposes
 
-    //   const { data } = await axios.post(`${API}/user/session`, { cartItems })
+        // Make a POST request to the backend API endpoint for creating a Stripe session
+        const { data } = await axios.post(`${API}/user/session`, { listings: [listing] });
 
-    //   router.push(data.url)
+        // Log the response data for debugging purposes
 
-    } catch (error) {
-      console.log("error", error);
+        // Redirect to the Stripe checkout page using the received URL
+        router.push(data.url);
+    } catch (error: any) {
+        // Log and handle errors that occur during the process
+        console.error("Error caught in catch block:", error);
+
+        // Also log the error details if available
+        if (error.response) {
+            console.error("Response data:", error.response.data);
+            console.error("Status:", error.response.status);
+            console.error("Status Text:", error.response.statusText);
+            console.error("Headers:", error.response.headers);
+        }
+
+        // Handle other errors if needed
     }
-
-
-  }
+};
+  
+  
+  
+  
 
 
   const onSubmit = async () => {
 
   };
-
 
   const bodyContent = (
 

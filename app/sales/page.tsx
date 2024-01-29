@@ -20,10 +20,12 @@ const Sales = async ({ searchParams }: SalesProps) => {
   const allListings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
 
+
   // Assuming each listing has a type property ('rent' or 'sale')
   const saleListings = allListings.filter(
     (listing) => listing.availability === true && listing.type === "SALE"
   );
+
 
   if (saleListings.length === 0) {
     return (   
