@@ -45,6 +45,49 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
     [router]
   );
 
+
+  const onAvailability = useCallback(
+    (id: string, newAvailability: boolean) => {
+      setDeletingId(id);
+  
+      axios
+        .put(`/api/listings/${id}`, { availability: newAvailability })
+        .then(() => {
+          toast.success("Listing updated");
+          router.refresh();
+        })
+        .catch((error) => {
+          toast.error("Error updating availability!");
+        })
+        .finally(() => {
+          setDeletingId("");
+        });
+    },
+    [router]
+  );
+  
+
+  const onUpdate = useCallback(
+    (id: string) => {
+      setDeletingId(id);
+
+      axios
+        .delete(`/api/listings/${id}`)
+        .then(() => {
+          toast.success("Listing deleted");
+          router.refresh();
+        })
+        .catch((error) => {
+          toast.error(error?.response?.data?.error);
+        })
+        .finally(() => {
+          setDeletingId("");
+        });
+    },
+    [router]
+  );
+  
+
   // Separate listings into different categories
   const vacantRentListings = listings.filter(
     (listing) => listing.availability === true && listing.type === "RENT"
@@ -64,87 +107,111 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
 
   return (
     <Container>
-      {/* Display Vacant Rent Listings */}
-      <Heading title="Vacant Rent listings" subtitle="List of your rent properties" />
-      <div className="pt-18 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-[145px]">
 
-        {vacantRentListings.map((listing: any) => (
-          <ListingCard
+<div className="container mx-auto my-8">
+          <h1 className="ml-2 text-3xl font-bold mb-4 mt-24">My Properties</h1>
+
+          {/* Vacant Sales */}
+          <div className="gap-y-4">
+ <Heading title="Vacant Sale listings" subtitle="List of your rent properties" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+             {vacantSaleListings.map((listing) => (
+            <ListingCard
+            key={listing.id}
+            data={listing}
+            actionId={listing.id}
+            onAction={onDelete}
+            disabled={deletingId === listing.id}
+            actionLabel="Delete"
+            
+            onSecondaryAction={onAvailability}
+                   secondaryActionLabel={
+                  listing.availability ? "Mark as Sold" : "Mark as Available"
+                }
+                onThirdAction={onUpdate}
+                thirdActionLabel="Edit"
+                currentUser={currentUser}
+              />
+   
+          ))}
+      </div>
+
+          </div>
+     
+
+      <hr className="mt-8"/>
+      {/* Vacant Rents */}
+      <Heading title="Vacant Rent listings" subtitle="List of your rent properties" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+             {vacantRentListings.map((listing) => (
+            <ListingCard
             key={listing.id}
             data={listing}
             actionId={listing.id}
             onAction={onDelete}
             disabled={deletingId === listing.id}
             actionLabel="Delete property"
+            onSecondaryAction={onAvailability}
+            secondaryActionLabel={
+           listing.availability ? "Mark as Rented" : "Mark as Available"
+         }
+         onThirdAction={onUpdate}
+         thirdActionLabel="Edit"
             currentUser={currentUser}
           />
-        ))}
-      </div>
-
-      <hr className="mt-4"/>
-
-      {/* Display Vacant Sale Listings */}
-      <div className="mt-6">
-        <Heading title="Vacant Sale listings" subtitle="List of your selling properties" />
-               <div className="pt-18 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-[145px]">
-
-          {vacantSaleListings.map((listing: any) => (
-            <ListingCard
-              key={listing.id}
-              data={listing}
-              actionId={listing.id}
-              onAction={onDelete}
-              disabled={deletingId === listing.id}
-              actionLabel="Delete property"
-              currentUser={currentUser}
-            />
           ))}
-        </div>
       </div>
 
-      <hr className="mt-4"/>
 
-      {/* Display Rented Listings */}
-      <div className="mt-6">
-      
-        <Heading title="Rented listings" subtitle="List of your rented properties" />
-               <div className="pt-18 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-[145px]">
-
-          {rentedListings.map((listing: any) => (
+      <hr className="mt-8"/>
+      {/* Sold properties */}
+      <Heading title="Sold listings" subtitle="List of your sold properties" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+             {soldListings.map((listing) => (
             <ListingCard
-              key={listing.id}
-              data={listing}
-              actionId={listing.id}
-              onAction={onDelete}
-              disabled={deletingId === listing.id}
-              actionLabel="Delete property"
-              currentUser={currentUser}
-            />
+            key={listing.id}
+            data={listing}
+            actionId={listing.id}
+            onAction={onDelete}
+            disabled={deletingId === listing.id}
+            actionLabel="Delete property"
+            onSecondaryAction={onAvailability}
+            secondaryActionLabel={
+           listing.availability ? "Mark as Sold" : "Mark as Available"
+         }
+         onThirdAction={onUpdate}
+         thirdActionLabel="Edit"
+            currentUser={currentUser}
+          />
           ))}
-        </div>
       </div>
 
-      <hr className="mt-4"/>
-      {/* Display Sold Listings */}
-      <div className="mt-6">
-        <Heading title="Sold listings" subtitle="List of your sold properties" />
-               <div className="pt-18 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-[145px]">
-
-          {soldListings.map((listing: any) => (
+      <hr className="mt-8"/>
+      {/* Rented Properties */}
+      <Heading title="Rented listings" subtitle="List of your rented properties" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+             {rentedListings.map((listing) => (
             <ListingCard
-              key={listing.id}
-              data={listing}
-              actionId={listing.id}
-              onAction={onDelete}
-              disabled={deletingId === listing.id}
-              actionLabel="Delete property"
-              currentUser={currentUser}
-            />
+            key={listing.id}
+            data={listing}
+            actionId={listing.id}
+            onAction={onDelete}
+            disabled={deletingId === listing.id}
+            actionLabel="Delete property"
+            onSecondaryAction={onAvailability}
+            secondaryActionLabel={
+           listing.availability ? "Mark as Rented" : "Mark as Available"
+         }
+         onThirdAction={onUpdate}
+         thirdActionLabel="Edit"
+            currentUser={currentUser}
+          />
           ))}
-        </div>
       </div>
+        </div>
     </Container>
   );
 };
 
 export default PropertiesClient;
+

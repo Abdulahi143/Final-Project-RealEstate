@@ -9,7 +9,7 @@ import ClientOnly from '../components/ClientOnly';
 import Categories from '../components/navbar/Categories';
 import { ListingType } from '@prisma/client';
 import SaleFilterSection from '../components/filters/salefilters/Filter';
-import SalesEmptyState from './EmptyState';
+import SalesEmptyState from './_Components/EmptyState';
 
 interface SalesProps {
   searchParams: IListingsParams;
@@ -30,19 +30,15 @@ const Sales = async ({ searchParams }: SalesProps) => {
   if (saleListings.length === 0) {
     return (   
       <>
-                <div className='my-12'>
-        <h1 className='text-2xl font-semibold text-slate-600 ml-24 space-y-2 pt-4'>All Sales </h1>
-
-         <SaleFilterSection />
-      </div>
-       
-       <ClientOnly>
-        <div className="flex flex-col-reverse sm:flex-row justify-center items-center">
-          <div className="w-full pt-9 sm:w-3/4 order-1 sm:order-2">
+        <ClientOnly>
+          <div className="container mx-auto my-8">
+            <div className="mb-8 ">
+              <h1 className="ml-2 text-3xl font-bold mb-4 mt-24">All Sales</h1>
+              <SaleFilterSection />
+            </div>
             <SalesEmptyState showReset />
           </div>
-        </div>
-      </ClientOnly>
+        </ClientOnly>
       </>  
      
     );
@@ -50,15 +46,12 @@ const Sales = async ({ searchParams }: SalesProps) => {
 
   return (
     <ClientOnly>
-           
-
-      <div className="ml-4 mt-24">
-        <div className='my-8'>
-        <h1 className='text-2xl font-semibold text-slate-600 ml-28 space-y-2 pt-4'>All Sales </h1>
-
-        <SaleFilterSection />
+            <div className="container mx-auto my-8">
+        <div className="mb-8 ">
+          <h1 className="ml-2 text-3xl font-bold mb-4 mt-24">All Sales</h1>
+          <SaleFilterSection />
         </div>
-        <div className="pt-18 ml-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-[145px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {saleListings.slice(0, 5).map(sale => (
             <ListingCard currentUser={currentUser} key={sale.id} data={sale} />
           ))}

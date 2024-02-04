@@ -1,4 +1,6 @@
 'use client';
+
+
 import { validateWordCount } from '@/app/validators/DescriptionValidation';
 import React from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
@@ -11,6 +13,7 @@ interface InputProps {
   disabled?: boolean;
   formatPrice?: boolean;
   required?: boolean;
+  confirmationRequired?: string | boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
   value?: string;
@@ -25,6 +28,7 @@ const Input: React.FC<InputProps> = ({
   type = 'text',
   disabled,
   formatPrice,
+  confirmationRequired,
   register,
   required,
   errors,

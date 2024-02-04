@@ -1,9 +1,7 @@
 import React from 'react';
 import { SafeUser } from "@/app/types";
-import Categories from "./Categories";
 import Container from "../Container";
 import Logo from "./Logo";
-import Search from "./Search";
 import UserMenu from "./UserMenu";
 import MenuItems from "./Menu";
 
@@ -38,7 +36,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
         <Container>
           <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
             <Logo />
-            {/* <Search /> */}
             <MenuItems />
             <UserMenu currentUser={currentUser} />
           </div>

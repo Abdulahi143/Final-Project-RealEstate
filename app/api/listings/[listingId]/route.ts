@@ -1,27 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import { NextResponse } from "next/server";
+
+interface ListingUpdateData {
+  availability?: boolean;
+}
 
 interface IParams {
   listingId?: string;
 }
 
-interface ListingUpdateData {
-  title?: string;
-  description?: string;
-  imageSrc?: string[];
-  category?: string;
-  furnished?: string;
-  roomCount?: number;
-  bathroomCount?: number;
-  sizeCount?: number;
-  parkingCount?: number;
-  locationValue?: string;
-  price?: number;
-  buildType?: string;
-  availability?: boolean;
-}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
@@ -49,16 +38,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 }
 
-
 async function handleDelete(req: NextApiRequest, res: NextApiResponse, listingId: string) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return NextResponse.error();
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
   }
 
   if (!listingId || typeof listingId !== 'string') {
-    throw new Error('Invalid ID');
+    res.status(400).json({ error: 'Invalid ID' });
+    return;
   }
 
   const rentListing = await prisma.rentListings.findUnique({
@@ -81,7 +71,8 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse, listingId
     updateData = req.body;
   } catch (error) {
     console.error("Error accessing request body:", error);
-    return NextResponse.error();
+    res.status(500).json({ error: 'Internal Server Error' });
+    return;
   }
 
   if (rentListing) {
@@ -118,18 +109,20 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse, listingId
     },
   });
 
-  return NextResponse.json({ success: true });
+  res.status(200).json({ success: true });
 }
 
 async function handlePut(req: NextApiRequest, res: NextApiResponse, listingId: string) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return NextResponse.error();
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
   }
 
   if (!listingId || typeof listingId !== 'string') {
-    throw new Error('Invalid ID');
+    res.status(400).json({ error: 'Invalid ID' });
+    return;
   }
 
   let updateData: ListingUpdateData;
@@ -138,10 +131,11 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse, listingId: s
     updateData = req.body;
   } catch (error) {
     console.error("Error accessing request body:", error);
-    return NextResponse.error();
+    res.status(500).json({ error: 'Internal Server Error' });
+    return;
   }
 
-  // Update availability to false for the specified listing and user
+  // Update availability for the specified listing and user
   await prisma.rentListings.updateMany({
     where: {
       id: listingId,
@@ -149,7 +143,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse, listingId: s
     },
     data: {
       ...updateData,
-      availability: false,
+      availability: updateData.availability,
     },
   });
 
@@ -160,9 +154,79 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse, listingId: s
     },
     data: {
       ...updateData,
-      availability: false,
+      availability: updateData.availability,
     },
   });
 
-  return NextResponse.json({ success: true });
+  res.status(200).json({ success: true });
+}
+
+
+export async function PUT(
+  request: Request, 
+  { params }: { params: IParams }
+) {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    return NextResponse.error();
+  }
+
+  const { listingId } = params;
+
+  if (!listingId || typeof listingId !== 'string') {
+    throw new Error('Invalid ID');
+  }
+
+  const body = await request.json();
+  const { availability } = body;
+
+  if (typeof availability !== 'boolean') {
+    throw new Error('Invalid availability value');
+  }
+
+  let updatedSaleListing = null;
+  let updatedRentListing = null;
+
+  const saleListing = await prisma.saleListings.findUnique({
+    where: {
+      id: listingId,
+      userId: currentUser.id
+    }
+  });
+
+  if (saleListing) {
+    updatedSaleListing = await prisma.saleListings.update({
+      where: {
+        id: listingId,
+        userId: currentUser.id
+      },
+      data: {
+        availability: availability
+      }
+    });
+  } else {
+    const rentListing = await prisma.rentListings.findUnique({
+      where: {
+        id: listingId,
+        userId: currentUser.id
+      },
+    });
+
+    if (rentListing) {
+      updatedRentListing = await prisma.rentListings.update({
+        where: {
+          id: listingId,
+          userId: currentUser.id
+        },
+        data: {
+          availability: availability
+        }
+      });
+    } else {
+      throw new Error('Listing not found in sales or rents');
+    }
+  }
+
+  return NextResponse.json({ updatedSaleListing, updatedRentListing });
 }

@@ -8,10 +8,11 @@ interface PropertiesClientProps {
     listings: SafeListing[];
     isAdmin?: SafeUser | null;
     users?: SafeUser[] | null; 
+    displayCount?: number;
   }
   
   
-  const LatestSalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users }) => {
+  const LatestSalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users, displayCount = 6 }) => {
     const filteredListings = listings.filter((listing) => listing.type === "SALE" && listing.availability);
   
     const findUserById = (userId: string) => {
@@ -34,7 +35,8 @@ interface PropertiesClientProps {
         <div className="flow-root">
           <ul role="list" className="divide-y divide-gray-200">
             {filteredListings.length > 0 ? (
-              filteredListings.map((listing: any) => (
+          
+          filteredListings.slice(0, displayCount).map((listing: any) => (
                 <li className="py-3 sm:py-4" key={listing.id}>
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">

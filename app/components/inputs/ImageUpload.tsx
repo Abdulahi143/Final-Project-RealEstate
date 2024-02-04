@@ -2,7 +2,7 @@
 // ImageUpload.js
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { ImCancelCircle } from "react-icons/im";
 import { TbPhotoPlus } from 'react-icons/tb'
 
@@ -23,10 +23,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   value,
   folder
 }) => {
+  const [imageLoading, setImageLoading] = useState<boolean>(false);
+
   const handleUpload = useCallback((result: any) => {
     // Check if the maximum number of images has been reached
     if (value.length < 5) {
-      onChange([...value, result.info.secure_url]);
+      setImageLoading(true);
+
+      // Simulate delay for illustration purposes
+      setTimeout(() => {
+        onChange([...value, result.info.secure_url]);
+        setImageLoading(false);
+      }, 1000);
     }
   }, [onChange, value]);
 
@@ -49,32 +57,31 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     }
   };
 
-
   return (
     <div className="relative">
       {/* Display uploaded images */}
       {value && value.length > 0 && (
-        <div
-          className="
-            w-full
-            flex
-            flex-wrap
-            p-2
-          "
-        >
+        <div className="w-full flex flex-wrap p-2">
           <div className="w-full flex justify-center">
             {/* Larger first image */}
             <div className="w-1/2 p-1 box-border relative">
-              
-            <Image
-  layout="responsive"
-  width={200}
-  height={200}
-  objectFit="cover"
-  src={value[0]}
-  alt="Uploaded image 1"
-  loading="lazy"
-/>
+              <span
+                className="absolute top-2 left-2 text-white cursor-pointer"
+                onClick={() => handleDelete(0)}
+              >
+                <ImCancelCircle size={20} className="text-red-500 bg-slate-400 rounded-xl" />
+              </span>
+              {!imageLoading && (
+                <Image
+                  layout="responsive"
+                  width={200}
+                  height={200}
+                  objectFit="cover"
+                  src={value[0]}
+                  alt="Uploaded image 1"
+                  loading="lazy"
+                />
+              )}
               <div className="absolute bottom-0 left-0 bg-green-500 rounded-full text-white p-1">
                 <span className="font-bold">1 (Cover)</span>
               </div>
@@ -84,26 +91,24 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           <div className="w-full flex justify-center">
             {/* Remaining images in rows */}
             {value.slice(1).map((src, index) => (
-              <div
-                key={index}
-                className="w-1/4 p-1 box-border relative"
-              >
+              <div key={index} className="w-1/4 p-1 box-border relative">
                 <span
-                className="absolute top-2 left-2 text-white cursor-pointer"
-                onClick={() => handleDelete(index)}
-              >
-                <ImCancelCircle size={20} className="text-red-500 bg-slate-400 rounded-xl"/>
-              </span>
-                <Image
-                  layout="responsive"
-                  width={100}
-                  height={100}
-                  objectFit="cover"
-                  src={src}
-                  alt={`Uploaded image ${index + 2}`}
-  loading="lazy"
-
-                />
+                  className="absolute top-2 left-2 text-white cursor-pointer"
+                  onClick={() => handleDelete(index + 1)}
+                >
+                  <ImCancelCircle size={20} className="text-red-500 bg-slate-400 rounded-xl" />
+                </span>
+                {!imageLoading && (
+                  <Image
+                    layout="responsive"
+                    width={100}
+                    height={100}
+                    objectFit="cover"
+                    src={src}
+                    alt={`Uploaded image ${index + 2}`}
+                    loading="lazy"
+                  />
+                )}
                 <div className="absolute bottom-0 left-0 bg-green-500 rounded-full text-white p-1">
                   <span className="font-bold">{index + 2}</span>
                 </div>
@@ -123,9 +128,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             folder: folder
           }}
         >
-          {({ open }) => (
+          {(widgetProps) => (
             <div
-              onClick={() => open?.()}
+            onClick={() => widgetProps && widgetProps.open && widgetProps.open()}
               className="
                 cursor-pointer
                 hover:opacity-70
@@ -150,6 +155,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       )}
     </div>
   );
-}
+};
 
 export default ImageUpload;

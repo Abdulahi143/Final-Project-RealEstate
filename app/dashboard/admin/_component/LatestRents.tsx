@@ -8,10 +8,11 @@ interface PropertiesClientProps {
     listings: SafeListing[];
     isAdmin?: SafeUser | null;
     users?: SafeUser[] | null; 
+    displayCount?: number;
   }
   
   
-  const LatestRentsClients: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users }) => {
+  const LatestRentsClients: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users, displayCount = 6 }) => {
     const filteredListings = listings.filter((listing) => listing.type === "RENT" && listing.availability);
   
     const findUserById = (userId: string) => {
@@ -22,7 +23,7 @@ interface PropertiesClientProps {
       <div className="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-bold leading-none text-gray-900">
-            Latest sales
+            Latest rents
           </h3>
           <Link
             href="/dashboard/admin/sales"
@@ -34,7 +35,7 @@ interface PropertiesClientProps {
         <div className="flow-root">
           <ul role="list" className="divide-y divide-gray-200">
             {filteredListings.length > 0 ? (
-              filteredListings.map((listing: any) => (
+                filteredListings.slice(0, displayCount).map((listing: any) => (
                 <li className="py-3 sm:py-4" key={listing.id}>
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">
@@ -60,7 +61,7 @@ interface PropertiesClientProps {
                 </li>
               ))
             ) : (
-              <p>No latest sales data available.</p>
+              <p>No latest rents data available.</p>
             )}
           </ul>
         </div>

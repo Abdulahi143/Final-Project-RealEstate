@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
-import useRentModal from "@/app/hooks/useRentModal";
 import { SafeUser } from "@/app/types";
 
 import MenuItem from "./MenuItem";
@@ -21,15 +20,10 @@ export interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({
   currentUser
 }) => {
-
   const router = useRouter();
-
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
-  // const rentModal = useRentModal();
-
   const rentOrSellModal = useSellOrRentModal();
-
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
@@ -40,11 +34,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
     if (!currentUser) {
       return loginModal.onOpen();
     }
-
-
     rentOrSellModal.onOpen();
   }, [loginModal, rentOrSellModal, currentUser]);
-
 
   return ( 
     <div className="relative">
@@ -121,6 +112,21 @@ const UserMenu: React.FC<UserMenuProps> = ({
                   label="Sell or rent your properties"  
                   onClick={rentOrSellModal.onOpen}
                 />
+                <div className="lg:hidden xl:hidden 2xl:hidden">
+ 
+                    <MenuItem 
+                  label="All sales" 
+                  onClick={() => router.push('/sales')}
+                />        <MenuItem 
+                label="All rents" 
+                onClick={() => router.push('/rents')}
+              /> 
+                                                 <MenuItem 
+              label="About" 
+              onClick={() => router.push('/about')}
+            />
+                </div>
+     
                 <hr />
                 {currentUser.isAdmin && (
   <MenuItem 

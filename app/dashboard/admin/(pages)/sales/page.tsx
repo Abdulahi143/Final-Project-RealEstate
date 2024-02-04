@@ -6,7 +6,6 @@ import SalesClient from "./SalesClient";
 import { SafeUser } from "@/app/types";
 import getUsers from "@/app/actions/getUsers";
 
-
 const SalesPage = async () => {
   const currentUser = await getCurrentUser();
 
@@ -19,8 +18,6 @@ const SalesPage = async () => {
     );
   }
 
-
-
   const isAdmin: SafeUser | null = currentUser.isAdmin ? currentUser : null;
 
   if (!isAdmin) {
@@ -32,54 +29,41 @@ const SalesPage = async () => {
     );
   }
 
+  let userOwnedListings;
 
-  const [userOwnedListings, users] = await Promise.all([
-    getListings({ userId: currentUser.id }),
-    getUsers()
-  ]);
+  if (isAdmin) {
+    // Fetch all sale listings
+    userOwnedListings = await getListings({ type: "SALE" });
+  } else {
+    // Fetch only the user's listings
+    userOwnedListings = await getListings({ userId: currentUser.id });
+  }
 
+  const users = await getUsers();
 
-    if (userOwnedListings.length === 0) {
-      return (
-        <>
-          {/* <PropertiesFilterSection /> */}
-          <ClientOnly>
-            <EmptyState
-              title="Something went wrong😢"
-              subtitle="Looks like you have no properties or you are not admin!"
-            />
-          </ClientOnly>
-        </>
-      );
-
-
+  if (userOwnedListings.length === 0) {
     return (
       <>
+        {/* <PropertiesFilterSection /> */}
         <ClientOnly>
-          <SalesClient
-            listings={userOwnedListings}
-            isAdmin={isAdmin}
-            users={users || null}
+          <EmptyState
+            title="Something went wrong😢"
+            subtitle="Looks like you have no properties or you are not admin!"
           />
         </ClientOnly>
       </>
     );
   }
 
-  // User is an admin, fetch and display all listings
-  const allListings = await getListings({});
-
   return (
     <>
-      {/* <PropertiesFilterSection /> */}
       <ClientOnly>
-  <SalesClient
-    users={users || null}
-    listings={allListings}
-    isAdmin={isAdmin}
-  />
-</ClientOnly>
-
+        <SalesClient
+          listings={userOwnedListings}
+          isAdmin={isAdmin}
+          users={users || null}
+        />
+      </ClientOnly>
     </>
   );
 };

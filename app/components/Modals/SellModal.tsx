@@ -53,7 +53,7 @@ const SellModal = () => {
       title: "",
       description: "",
       ListingType: "SALE",
-      buildType: "",
+      buildType: "apartment",
     },
   });
 

@@ -23,11 +23,16 @@ const SalesPage = async () => {
       />
     );
   }
+  let userOwnedListings;
+  if (isAdmin) {
+    // Fetch all rent listings
+    userOwnedListings = await getListings({ type: "RENT" });
+  } else {
+    // Fetch only the user's listings
+    userOwnedListings = await getListings({ userId: currentUser.id });
+  }
 
-  const [userOwnedListings, users] = await Promise.all([
-    getListings({ userId: currentUser.id }),
-    getUsers(),
-  ]);
+  const users = await getUsers();
 
     if (userOwnedListings.length === 0) {
       return (

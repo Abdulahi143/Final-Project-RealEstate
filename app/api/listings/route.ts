@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     sizeCount,
     location,
     price,
-    type, // Capitalize the property to match the enum
+    type, 
     availability,
     buildType,
   } = body;
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
         locationValue: location.value,
         price: parseInt(price, 10),
         userId: currentUser.id,
-        type: ListingType.RENT, // Make sure 'type' is included
+        type: ListingType.RENT, 
         availability: availability ?? true,
         buildType,
       },
@@ -71,13 +71,12 @@ export async function POST(request: Request) {
         locationValue: location.value,
         price: parseInt(price, 10),
         userId: currentUser.id,
-        type: ListingType.SALE, // Make sure 'type' is included
+        type: ListingType.SALE,
         availability: availability ?? true,
         buildType,
       },
     });
   } else {
-    // Handle invalid type
     return NextResponse.error();
   }
 

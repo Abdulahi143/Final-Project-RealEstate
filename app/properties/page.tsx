@@ -6,7 +6,6 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import getListings from "@/app/actions/getListings";
 
 import PropertiesClient from "./PropertiesClient";
-import PropertiesFilterSection from "../components/filters/propertiesfilters/Filter";
 
 const PropertiesPage = async () => {
   const currentUser = await getCurrentUser();
@@ -23,7 +22,6 @@ const PropertiesPage = async () => {
   if (listings.length === 0) {
     return (
       <>
-      <PropertiesFilterSection /> 
        <ClientOnly>
         <EmptyState
           title="No properties found"
@@ -36,15 +34,12 @@ const PropertiesPage = async () => {
   }
 
   return (
-    <>
-      <PropertiesFilterSection /> 
         <ClientOnly>
       <PropertiesClient
         listings={listings}
         currentUser={currentUser}
       />
     </ClientOnly>
-    </>
 
   );
 }

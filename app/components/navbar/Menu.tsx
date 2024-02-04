@@ -12,6 +12,7 @@ const MenuItems = () => {
       <div
         onClick={() => {}}
         className="
+        hidden
           border-[1px] 
           w-full 
           md:w-auto 
@@ -21,7 +22,7 @@ const MenuItems = () => {
           hover:shadow-md 
           transition 
           cursor-pointer
-          flex
+          md:flex
           justify-between
         "
       >

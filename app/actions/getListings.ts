@@ -14,6 +14,9 @@ export interface IListingsParams {
   type?: ListingType;
   buildType?: string | null;
   priceRange?: string;
+  page?: number;
+  limit?: number;
+  query?: string;
 }
 
 export default async function getListings(
@@ -26,8 +29,6 @@ export default async function getListings(
       sizeCount, 
       bathroomCount,
       locationValue,
-      startDate,
-      endDate,
       category,
       type,
       buildType,

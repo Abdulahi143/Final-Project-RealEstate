@@ -2,12 +2,13 @@ import { RentListings, SaleListings, Reservation, User } from "@prisma/client";
 
 export type SafeListing = (Omit<RentListings, "createdAt"> | Omit<SaleListings, "createdAt">) & {
   createdAt: string;
-  type?: string; // Add this if 'type' is a property you need
+  type?: string;
   furnished?: string;
   availability: boolean | null;
-  user?: User;
-
+  user?: SafeUser; // Use SafeUser here
+  userId?: string;
 };
+
 
 
 
@@ -21,12 +22,12 @@ export type SafeReservation = Omit<
   listing: SafeListing;
 };
 
-
 export type SafeUser = Omit<
   User,
   "createdAt" | "updatedAt" | "emailVerified"
 > & {
   createdAt: string;
   updatedAt: string;
-  emailVerified: string | null;
+  emailVerified: string | null; // Adjust the type here
 };
+

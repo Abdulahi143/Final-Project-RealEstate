@@ -63,11 +63,13 @@ const DashboardPage = async ({ searchParams, type, listings }: SalesProps) => {
           users={users || null}
           listings={allListings}
           isAdmin={isAdmin}
+          displayCount={6}
         />
         <LatestRentsClients
           users={users || null}
           listings={allListings}
           isAdmin={isAdmin}
+          displayCount={6}
         />
         <OverView />
       </div>
