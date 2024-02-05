@@ -10,12 +10,12 @@ interface DashboardHomeProps {
   listings: SafeListing[];
 }
 
-const DashboardHome: React.FC<DashboardHomeProps> = ({ searchParams, type, listings }) => {
+const AdminPage: React.FC<DashboardHomeProps> = ({ searchParams, type, listings }) => {
   return (
     <>
       <DashboardPage searchParams={searchParams} type={type} listings={listings} />
     </>
-  );
-};
+  )
+}
 
-export default DashboardHome;
+export default AdminPage
