@@ -8,19 +8,19 @@ import { FaTrash, FaEdit, FaSearch } from "react-icons/fa";
 import Container from "@/app/components/Container";
 import { SafeListing, SafeUser } from "@/app/types";
 
-interface PropertiesClientProps {
+interface RentsClientProps {
   listings: SafeListing[];
   isAdmin?: SafeUser | null;
   users?: SafeUser[] | null; 
 }
 
 
-const RentsClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users }) => {
+const RentsClient: React.FC<RentsClientProps> = ({ listings, isAdmin, users }) => {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("active"); // "active" or "rented"
+  const [activeTab, setActiveTab] = useState("active"); 
   const listingsPerPage = 10;
 
 
@@ -227,5 +227,4 @@ const RentsClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users
     </Container>
   );
 };
-
 export default RentsClient;

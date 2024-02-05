@@ -6,13 +6,12 @@ import { SafeUser } from "@/app/types";
 import RentsClient from "./RentsClients";
 import getUsers from "@/app/actions/getUsers";
 
-const SalesPage = async () => {
+const RentsPage = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
     return <EmptyState title="Unauthorized" subtitle="Please login" />;
   }
-
   const isAdmin: SafeUser | null = currentUser.isAdmin ? currentUser : null;
 
   if (!isAdmin) {
@@ -77,4 +76,4 @@ const SalesPage = async () => {
   );
 };
 
-export default SalesPage;
+export default RentsPage;
