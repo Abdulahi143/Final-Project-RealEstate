@@ -31,10 +31,10 @@
 import ClientOnly from "@/app/components/ClientOnly";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import RentsClient from "./RentsClient";
 import getListings from "../actions/getListings";
 import RentFilterSection from "../components/filters/rentfilters/Filter";
 import RentsEmptyState from "./EmptyState";
+import RentsClient from "./RentsClient";
 
 const ListingPage = async () => {
   const listings = await getListings({});
