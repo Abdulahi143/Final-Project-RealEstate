@@ -1,5 +1,5 @@
 "use client"
-import { sendEmail } from "@/app/api/contact/route";
+import { sendEmail } from "@/app/actions/sendEmail";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 

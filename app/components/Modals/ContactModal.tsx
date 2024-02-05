@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useContactModal from '@/app/hooks/useContactModal';
 import Heading from '../Heading';
-import { sendEmail } from '@/app/api/contact/route';
 import ContactInput from '../inputs/ContactInput';
 import Button from '../Button';
 import SpecialModal from './SpecialModal';
 import { usePathname } from 'next/navigation';
 import { SafeListing } from '@/app/types';
+import { sendEmail } from '@/app/actions/sendEmail';
 
 
 interface ContactModalProps {
