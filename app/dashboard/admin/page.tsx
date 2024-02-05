@@ -19,7 +19,7 @@ interface DashboardProps {
   listings: SafeListing[];
 }
 
-const DashboardPage = async ({ searchParams, type, listings }: DashboardProps) => {
+const DashboardPage: React.FC<DashboardProps> = async ({ searchParams, type, listings }) => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
