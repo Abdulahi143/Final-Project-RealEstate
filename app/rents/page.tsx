@@ -10,12 +10,12 @@ import { ListingType } from "@prisma/client";
 import RentFilterSection from "../components/filters/rentfilters/Filter";
 import RentsEmptyState from "./EmptyState";
 
-interface SalesProps {
+interface RentProps {
   searchParams: IListingsParams;
   type: ListingType;
 }
 
-const Sales = async ({ searchParams }: SalesProps) => {
+const Sales = async ({ searchParams }: RentProps) => {
   const allListings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
 

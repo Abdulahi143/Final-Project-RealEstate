@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 
-interface SalesProps {
+interface SalesTableProps {
     users: Users[];
     searchParams: IListingsParams;
     type: ListingType;
@@ -25,7 +25,7 @@ const formatDate = (inputDate: string): string => {
   return new Date(inputDate).toLocaleDateString('en-US', options);
 };
 
-const SalesTable = async ({ searchParams, users }: SalesProps) => {
+const SalesTable = async ({ searchParams, users }: SalesTableProps) => {
   const router = useRouter();  
   const allListings = await getListings(searchParams);
     const currentUser = await getCurrentUser();

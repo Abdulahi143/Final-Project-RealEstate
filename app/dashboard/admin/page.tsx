@@ -12,13 +12,14 @@ import getListings, { IListingsParams } from '@/app/actions/getListings';
 import { ListingType } from '@prisma/client';
 import { SafeListing, SafeUser } from '@/app/types';
 
-interface SalesProps {
+
+interface DashboardProps {
   searchParams: IListingsParams;
   type: ListingType;
   listings: SafeListing[];
 }
 
-const DashboardPage = async ({ searchParams, type, listings }: SalesProps) => {
+const DashboardPage = async ({ searchParams, type, listings }: DashboardProps) => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
