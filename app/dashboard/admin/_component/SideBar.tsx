@@ -31,7 +31,7 @@ interface SideNavItemType {
   href: string;
 }
 
-const sidebarItems: SideNavItemType[] = [
+const SidebarItems: SideNavItemType[] = [
   {
     icon: {
       icon: <GoHome />,
@@ -82,6 +82,7 @@ const sidebarItems: SideNavItemType[] = [
     href: "/dashboard/admin/settings"
   }
 ];
+
 export default function Sidebar({}: Props) {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
@@ -96,7 +97,7 @@ export default function Sidebar({}: Props) {
 
       {/* sidenavitems */}
 
-      {sidebarItems.map((d, i) => (
+      {SidebarItems.map((d, i) => (
         <HoverContainer key={i}>
           <SideNavItem
             icon={d.icon}
