@@ -63,8 +63,6 @@
 
 import { SafeListing, SafeUser } from "@/app/types";
 
-import Heading from "@/app/components/Heading";
-import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
 import ClientOnly from "../components/ClientOnly";
 import RentFilterSection from "../components/filters/rentfilters/Filter";
@@ -79,10 +77,6 @@ const RentsClient: React.FC<RentClientProps> = ({
   currentUser
 }) => {
 
-    const rentListings = listings.filter(
-      (listing) => listing.availability === true && listing.type === "RENT"
-    );
-  
   return (
     <ClientOnly>
       <div className="container mx-auto my-8">
@@ -91,7 +85,7 @@ const RentsClient: React.FC<RentClientProps> = ({
           <RentFilterSection />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {rentListings.map((rent) => (
+          {listings.map((rent) => (
             <ListingCard currentUser={currentUser} key={rent.id} data={rent} />
           ))}
         </div>

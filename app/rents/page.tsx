@@ -36,7 +36,7 @@ import RentFilterSection from "../components/filters/rentfilters/Filter";
 import RentsEmptyState from "./EmptyState";
 import RentsClient from "./RentsClient";
 
-const ListingPage = async () => {
+const RentsPage = async () => {
   const listings = await getListings({});
   const currentUser = await getCurrentUser();
 
@@ -73,4 +73,4 @@ const ListingPage = async () => {
   );
 }
  
-export default ListingPage;
+export default RentsPage;
