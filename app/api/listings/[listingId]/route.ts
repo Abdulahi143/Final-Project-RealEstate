@@ -1,160 +1,120 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/app/libs/prismadb';
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import { NextResponse } from "next/server";
 
-interface ListingUpdateData {
-  availability?: boolean;
-}
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import prisma from "@/app/libs/prismadb";
 
 interface IParams {
   listingId?: string;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const {
-    query: { listingId },
-    method,
-  } = req;
-
-  if (typeof listingId !== 'string') {
-    res.status(400).json({ error: 'Invalid listingId' });
-    return;
-  }
-
-  switch (method) {
-    case 'PUT':
-      await handlePut(req, res, listingId);
-      break;
-
-    case 'DELETE':
-      await handleDelete(req, res, listingId);
-      break;
-
-    default:
-      res.setHeader('Allow', ['PUT', 'DELETE']);
-      res.status(405).end(`Method ${method} Not Allowed`);
-  }
-}
-
-async function handleDelete(req: NextApiRequest, res: NextApiResponse, listingId: string) {
+export async function DELETE(
+  request: Request, 
+  { params }: { params: IParams }
+) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return;
+    return NextResponse.error();
   }
+
+  const { listingId } = params;
 
   if (!listingId || typeof listingId !== 'string') {
-    res.status(400).json({ error: 'Invalid ID' });
-    return;
+    throw new Error('Invalid ID');
   }
 
-  const rentListing = await prisma.rentListings.findUnique({
+  // Attempt to delete from rentListings
+  const rentListings = await prisma.rentListings.deleteMany({
     where: {
       id: listingId,
-      userId: currentUser.id,
-    },
+      userId: currentUser.id
+    }
   });
 
-  const saleListing = await prisma.saleListings.findUnique({
-    where: {
-      id: listingId,
-      userId: currentUser.id,
-    },
-  });
-
-  let updateData: ListingUpdateData;
-
-  try {
-    updateData = req.body;
-  } catch (error) {
-    console.error('Error accessing request body:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-    return;
+  if (rentListings.count > 0) {
+    return NextResponse.json({ success: true, type: "rentListings" });
   }
 
-  if (rentListing) {
-    await prisma.rentListings.update({
-      where: {
-        id: listingId,
-      },
-      data: {
-        ...updateData,
-      },
-    });
-  } else if (saleListing) {
-    await prisma.saleListings.update({
-      where: {
-        id: listingId,
-      },
-      data: {
-        ...updateData,
-      },
-    });
+  // If not found in rentListings, attempt to delete from saleListings
+  const saleListings = await prisma.saleListings.deleteMany({
+    where: {
+      id: listingId,
+      userId: currentUser.id
+    }
+  });
+
+  if (saleListings.count > 0) {
+    return NextResponse.json({ success: true, type: "saleListings" });
   }
 
-  await prisma.rentListings.deleteMany({
-    where: {
-      id: listingId,
-      userId: currentUser.id,
-    },
-  });
-
-  await prisma.saleListings.deleteMany({
-    where: {
-      id: listingId,
-      userId: currentUser.id,
-    },
-  });
-
-  res.status(200).json({ success: true });
+  // If not found in either rentListings or saleListings
+  return NextResponse.json({ success: false, message: "Listing not found" });
 }
 
-async function handlePut(req: NextApiRequest, res: NextApiResponse, listingId: string) {
+export async function PUT(
+  request: Request, 
+  { params }: { params: IParams }
+) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return;
+    return NextResponse.error();
   }
+
+  const { listingId } = params;
 
   if (!listingId || typeof listingId !== 'string') {
-    res.status(400).json({ error: 'Invalid ID' });
-    return;
+    throw new Error('Invalid ID');
   }
 
-  let updateData: ListingUpdateData;
-
-  try {
-    updateData = req.body;
-  } catch (error) {
-    console.error('Error accessing request body:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-    return;
-  }
-
-  // Update availability for the specified listing and user
-  await prisma.rentListings.updateMany({
+  // Retrieve the current rent listing
+  const currentRentListing = await prisma.rentListings.findUnique({
     where: {
       id: listingId,
-      userId: currentUser.id,
-    },
-    data: {
-      ...updateData,
-      availability: updateData.availability,
+      userId: currentUser.id
     },
   });
 
-  await prisma.saleListings.updateMany({
+  // Retrieve the current sale listing
+  const currentSaleListing = await prisma.saleListings.findUnique({
     where: {
       id: listingId,
-      userId: currentUser.id,
-    },
-    data: {
-      ...updateData,
-      availability: updateData.availability,
+      userId: currentUser.id
     },
   });
 
-  res.status(200).json({ success: true });
+  if (!currentRentListing && !currentSaleListing) {
+    throw new Error('Listing not found');
+  }
+
+  // Toggle the availability for rent listing
+  if (currentRentListing) {
+    await prisma.rentListings.updateMany({
+      where: {
+        id: listingId,
+        userId: currentUser.id
+      },
+      data: {
+        availability: !currentRentListing.availability,
+      }
+    });
+    return NextResponse.json({ success: true, type: "rentListings" });
+  }
+
+  // Toggle the availability for sale listing
+  if (currentSaleListing) {
+    await prisma.saleListings.updateMany({
+      where: {
+        id: listingId,
+        userId: currentUser.id
+      },
+      data: {
+        availability: !currentSaleListing.availability,
+      }
+    });
+    return NextResponse.json({ success: true, type: "saleListings" });
+  }
+
+  // If neither rent nor sale listing found
+  return NextResponse.json({ success: false, message: "Listing not found" });
 }
