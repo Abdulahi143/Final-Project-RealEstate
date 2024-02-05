@@ -6,28 +6,17 @@ import React, { useState } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { usePathname } from "next/navigation";
 
-// icons
-
 
 import { HiOutlineCurrencyDollar } from 'react-icons/hi';
 import { MdOutlineSell, MdSell } from 'react-icons/md';
 import { LiaKeySolid } from 'react-icons/lia';
-import { PiUsersFourThin } from 'react-icons/pi';
 import { IoSettingsOutline } from 'react-icons/io5';
-
 
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { RiArrowLeftDoubleFill } from "react-icons/ri";
-import { FaXTwitter } from "react-icons/fa6";
-import { FiSearch } from "react-icons/fi";
-import { CiSearch } from "react-icons/ci";
-import { BsFillBellFill, BsBell } from "react-icons/bs";
-import { TbMailFilled, TbMail } from "react-icons/tb";
+
 import { HiUsers } from "react-icons/hi";
 import { HiCurrencyDollar, HiOutlineUsers } from "react-icons/hi2";
-import { BiSolidUser, BiUser } from "react-icons/bi";
-import { PiNotepadFill, PiNotepad } from "react-icons/pi";
-import { GiHouseKeys } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
 import { FaKey } from "react-icons/fa";
 
@@ -42,7 +31,7 @@ interface SideNavItemType {
   href: string;
 }
 
-const sidebarItmes: SideNavItemType[] = [
+const sidebarItems: SideNavItemType[] = [
   {
     icon: {
       icon: <GoHome />,
@@ -107,7 +96,7 @@ export default function Sidebar({}: Props) {
 
       {/* sidenavitems */}
 
-      {sidebarItmes.map((d, i) => (
+      {sidebarItems.map((d, i) => (
         <HoverContainer key={i}>
           <SideNavItem
             icon={d.icon}
