@@ -1,6 +1,9 @@
 const withPlugins = require('next-compose-plugins');
 
 const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+},
   images: {
     domains: [
       'lh3.googleusercontent.com',

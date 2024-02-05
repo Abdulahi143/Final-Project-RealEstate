@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image'
 import React from 'react'
 
 
@@ -11,7 +12,7 @@ const AboutPage = () => {
     <div className="flex flex-col items-center justify-between lg:flex-row py-16">
       <div className=" relative ">
         {/* <div className=" absolute top-0 -left-48 z-0  opacity-50 ">
-          <img
+          <Image
             src="/images/dugsiiye.png"
             className="w-36 z-0  h-full    object-fill fill-y text-y   "
           />
@@ -75,7 +76,7 @@ const AboutPage = () => {
           />
         </svg>
         <div className="abg-orange-400 mx-auto w-fit overflow-hidden rounded-[6rem] rounded-br-none rounded-tl-none">
-          <img src="/images/aboutImage.png" />
+          <Image  src="/images/aboutImage.png" alt='AboutImage'/>
         </div>
       </div>
     </div>

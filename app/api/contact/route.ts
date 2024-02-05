@@ -1,4 +1,4 @@
-// "use server"
+"use server"
 import { Resend } from "resend";
 import ContactFormEmail from "@/app/components/email/ContactFormEmail";
 import React from "react";

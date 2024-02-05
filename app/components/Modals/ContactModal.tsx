@@ -1,15 +1,13 @@
 'use client';
-// ... (existing imports)
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useContactModal from '@/app/hooks/useContactModal';
-import Modal from './Modal';
 import Heading from '../Heading';
 import { sendEmail } from '@/app/api/contact/route';
 import ContactInput from '../inputs/ContactInput';
 import Button from '../Button';
 import SpecialModal from './SpecialModal';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { SafeListing } from '@/app/types';
 
 
@@ -69,15 +67,6 @@ const ContactModal = () => {
     }
   }
 
-  useEffect(() => {
-
-    const currentPath = pathName;
-    
-    return () => {
-      // Cleanup function to close the modal when the component is unmounted
-      contactModal.onClose();
-    };
-  }, []); // Empty dependency array ensures this effect runs only on mount and unmount
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
