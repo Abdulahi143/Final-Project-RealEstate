@@ -31,7 +31,7 @@
 import ClientOnly from "@/app/components/ClientOnly";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import RentsClient from "./rentsClient";
+import RentsClient from "./RentsClient";
 import getListings from "../actions/getListings";
 import RentFilterSection from "../components/filters/rentfilters/Filter";
 import RentsEmptyState from "./EmptyState";
