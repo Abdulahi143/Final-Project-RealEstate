@@ -1,4 +1,3 @@
-// DashboardHome.tsx
 import React from 'react';
 import DashboardPage from './dashboardPage';
 import { IListingsParams } from '@/app/actions/getListings';
@@ -12,7 +11,7 @@ interface DashboardHomeProps {
   listings: SafeListing[];
 }
 
-const DashboardHome = async ({searchParams, type, listings}: DashboardHomeProps) => {
+export const DashboardHome = async ({searchParams, type, listings}: DashboardHomeProps) => {
 
   return (
     <>
@@ -21,4 +20,4 @@ const DashboardHome = async ({searchParams, type, listings}: DashboardHomeProps)
   );
 };
 
-export default DashboardHome;
+
