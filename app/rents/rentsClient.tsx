@@ -61,37 +61,37 @@
 // export default RentsClient;
 
 
-import { SafeListing, SafeUser } from "@/app/types";
+// import { SafeListing, SafeUser } from "@/app/types";
 
-import ListingCard from "@/app/components/listings/ListingCard";
-import ClientOnly from "../components/ClientOnly";
-import RentFilterSection from "../components/filters/rentfilters/Filter";
+// import ListingCard from "@/app/components/listings/ListingCard";
+// import ClientOnly from "../components/ClientOnly";
+// import RentFilterSection from "../components/filters/rentfilters/Filter";
 
-interface RentClientProps {
-  listings: SafeListing[],
-  currentUser: SafeUser | null,
-}
+// interface RentClientProps {
+//   listings: SafeListing[],
+//   currentUser: SafeUser | null,
+// }
 
-const RentsClient: React.FC<RentClientProps> = ({
-  listings,
-  currentUser
-}) => {
+// const RentsClient: React.FC<RentClientProps> = ({
+//   listings,
+//   currentUser
+// }) => {
 
-  return (
-    <ClientOnly>
-      <div className="container mx-auto my-8">
-        <div className="mb-8 ">
-          <h1 className="ml-2 text-3xl font-bold mb-4 mt-24">All Rents</h1>
-          <RentFilterSection />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {listings.map((rent) => (
-            <ListingCard currentUser={currentUser} key={rent.id} data={rent} />
-          ))}
-        </div>
-      </div>
-    </ClientOnly>
-   );
-}
+//   return (
+//     <ClientOnly>
+//       <div className="container mx-auto my-8">
+//         <div className="mb-8 ">
+//           <h1 className="ml-2 text-3xl font-bold mb-4 mt-24">All Rents</h1>
+//           <RentFilterSection />
+//         </div>
+//         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+//           {listings.map((rent) => (
+//             <ListingCard currentUser={currentUser} key={rent.id} data={rent} />
+//           ))}
+//         </div>
+//       </div>
+//     </ClientOnly>
+//    );
+// }
  
-export default RentsClient;
+// export default RentsClient;
