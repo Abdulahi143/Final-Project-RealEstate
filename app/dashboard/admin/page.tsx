@@ -11,7 +11,7 @@ interface DashboardHomeProps {
   listings: SafeListing[];
 }
 
-export const DashboardHome = async ({searchParams, type, listings}: DashboardHomeProps) => {
+export const DashboardHome = ({searchParams, type, listings}: DashboardHomeProps) => {
 
   return (
     <>
