@@ -1,7 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@/app/libs/prismadb";
-import getCurrentUser from "@/app/actions/getCurrentUser";
-import { NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from 'next';
+import prisma from '@/app/libs/prismadb';
+import getCurrentUser from '@/app/actions/getCurrentUser';
 
 interface ListingUpdateData {
   availability?: boolean;
@@ -10,7 +9,6 @@ interface ListingUpdateData {
 interface IParams {
   listingId?: string;
 }
-
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
@@ -70,7 +68,7 @@ async function handleDelete(req: NextApiRequest, res: NextApiResponse, listingId
   try {
     updateData = req.body;
   } catch (error) {
-    console.error("Error accessing request body:", error);
+    console.error('Error accessing request body:', error);
     res.status(500).json({ error: 'Internal Server Error' });
     return;
   }
@@ -130,7 +128,7 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse, listingId: s
   try {
     updateData = req.body;
   } catch (error) {
-    console.error("Error accessing request body:", error);
+    console.error('Error accessing request body:', error);
     res.status(500).json({ error: 'Internal Server Error' });
     return;
   }
@@ -159,74 +157,4 @@ async function handlePut(req: NextApiRequest, res: NextApiResponse, listingId: s
   });
 
   res.status(200).json({ success: true });
-}
-
-
-export async function PUT(
-  request: Request, 
-  { params }: { params: IParams }
-) {
-  const currentUser = await getCurrentUser();
-
-  if (!currentUser) {
-    return NextResponse.error();
-  }
-
-  const { listingId } = params;
-
-  if (!listingId || typeof listingId !== 'string') {
-    throw new Error('Invalid ID');
-  }
-
-  const body = await request.json();
-  const { availability } = body;
-
-  if (typeof availability !== 'boolean') {
-    throw new Error('Invalid availability value');
-  }
-
-  let updatedSaleListing = null;
-  let updatedRentListing = null;
-
-  const saleListing = await prisma.saleListings.findUnique({
-    where: {
-      id: listingId,
-      userId: currentUser.id
-    }
-  });
-
-  if (saleListing) {
-    updatedSaleListing = await prisma.saleListings.update({
-      where: {
-        id: listingId,
-        userId: currentUser.id
-      },
-      data: {
-        availability: availability
-      }
-    });
-  } else {
-    const rentListing = await prisma.rentListings.findUnique({
-      where: {
-        id: listingId,
-        userId: currentUser.id
-      },
-    });
-
-    if (rentListing) {
-      updatedRentListing = await prisma.rentListings.update({
-        where: {
-          id: listingId,
-          userId: currentUser.id
-        },
-        data: {
-          availability: availability
-        }
-      });
-    } else {
-      throw new Error('Listing not found in sales or rents');
-    }
-  }
-
-  return NextResponse.json({ updatedSaleListing, updatedRentListing });
 }
