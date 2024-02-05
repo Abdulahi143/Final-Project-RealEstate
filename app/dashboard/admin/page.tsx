@@ -11,7 +11,7 @@ interface DashboardHomeProps {
   listings: SafeListing[];
 }
 
-export const DashboardHome = ({searchParams, type, listings}: DashboardHomeProps) => {
+const Home = async ({searchParams, type, listings}: DashboardHomeProps) => {
 
   return (
     <>
@@ -19,5 +19,7 @@ export const DashboardHome = ({searchParams, type, listings}: DashboardHomeProps
     </>
   );
 };
+
+export default Home
 
 
