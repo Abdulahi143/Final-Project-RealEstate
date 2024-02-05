@@ -4,7 +4,7 @@ import prisma from '@/app/libs/prismadb';
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 
 export const authOptions: AuthOptions = {
@@ -30,33 +30,24 @@ export const authOptions: AuthOptions = {
                     if ((!credentials?.email) || !credentials?.password) {
                         throw new Error('Missing credentials');
                     }
-
-                    let user;
-
-                    if (credentials.email) {
-                        user = await prisma.user.findUnique({
-                            where: { email: credentials.email }
-                        });
-                    } 
-                    // else if (credentials.username) {
-                    //     user = await prisma.user.findUnique({
-                    //         where: { username: credentials.username }
-                    //     });
-                    // }
-
+        
+                    const user = await prisma.user.findUnique({
+                        where: { email: credentials.email }
+                    });
+        
                     if (!user || !user.hashedPassword) {
                         throw new Error('Invalid credentials');
                     }
-
-                    const isCorrectPassword = await bcrypt.compare(
-                        credentials.password,
-                        user.hashedPassword
-                    );
-
-                    if (!isCorrectPassword) {
+        
+                    const [salt, storedHash] = user.hashedPassword.split(':');
+                    const hash = crypto
+                        .pbkdf2Sync(credentials.password, salt, 10000, 64, 'sha512')
+                        .toString('hex');
+        
+                    if (hash !== storedHash) {
                         throw new Error('Invalid credentials');
                     }
-
+        
                     return user;
                 } catch (error) {
                     throw new Error('Authentication failed');
