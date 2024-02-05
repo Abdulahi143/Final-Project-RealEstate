@@ -82,7 +82,7 @@ export const ContactFormEmail = ({
                     textAlign: "center",
                   }}
                 >
-                  {fullName} is interested in your property "{propertyName}".
+                  {fullName} is interested in your property ({propertyName}).
                 </Heading>
 
                 <Text style={paragraph}>

@@ -128,7 +128,7 @@ const PaymentModal = () => {
                   localPayments.map((payment) => (
                     <div
                       onClick={() => setSelectedLocalPayment(payment)}
-
+                      key={payment.id}
                       className={`p-4 border rounded-lg cursor-pointer ${selectedLocalPayment.title === payment.title && 'border-green-600'}`}>{payment.title}</div>
                   ))
                 }

@@ -84,7 +84,7 @@ interface AvatarUploadProps {
               ) : (
                 <Avatar onClick={() => setIsAvatarClicked(true)}>
                   <AvatarImage src={value || "/images/addAvatar1.png"} />
-                  <AvatarFallback>Change to the user's uploaded image to the avatar.png and hide the div under here</AvatarFallback>
+                  <AvatarFallback>Change to the user&rsquo;s uploaded image to the avatar.png and hide the div under here</AvatarFallback>
                 </Avatar>
               )}
             </>

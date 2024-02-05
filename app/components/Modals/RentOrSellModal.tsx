@@ -5,6 +5,7 @@ import useRentModal from '@/app/hooks/useRentModal';
 import useSellModal from '@/app/hooks/useSellModal';
 import useSellOrRentModal from '@/app/hooks/useSellOrRentModal';
 import Heading from '../Heading';
+import Image from 'next/image';
 
 const RentOrSellModal: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,10 +34,10 @@ const RentOrSellModal: React.FC = () => {
       <Heading title="Do you want to sell or rent?" />
       <div className="flex flex-row justify-center w-full">
         <div className={`flex flex-col items-center mr-24 mt-8 cursor-pointer ${selectedType === 'rent' ? 'opacity-50' : ''}`} onClick={handleRent}>
-          <img src="/images/rent.png" alt="Rent" className="max-w-full ml-1 h-auto" />
+          <Image src="/images/rent.png" alt="Rent" className="max-w-full ml-1 h-auto" />
         </div>
         <div className={`flex flex-col items-center ml-24 cursor-pointer ${selectedType === 'sell' ? 'opacity-50' : ''}`} onClick={handleSell}>
-          <img src="/images/sell.png" alt="Sell" className="max-w-full h-auto" />
+          <Image src="/images/sell.png" alt="Sell" className="max-w-full h-auto" />
         </div>
       </div>
     </div>

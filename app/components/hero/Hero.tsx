@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 const Hero = () => {
@@ -13,7 +14,7 @@ const Hero = () => {
           Discover Your Dream Home <span className="text-green-500">@Dugsiiye</span>
           </h1>
           <p className="mt-3 text-lg text-gray-800 dark:text-gray-400">
-          Let's embark on the journey to find your dream house together!
+          Let&rsquo;s embark on the journey to find your dream house together!
           </p>
           {/* Buttons */}
           <div className="mt-7 grid gap-3 w-full sm:inline-flex">
@@ -258,29 +259,29 @@ const Hero = () => {
         <div className="hidden md:flex flex-col-reverse md:flex-row overflow-x-hidden">
   <div className="w-full md:w-32 xl:w-5/6 bg-contain bg-no-repeat md:ml-40 xl:mr-16">
     <div className="w-full flex flex-col md:flex-row gap-3 justify-center">
-      <img
+      <Image
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/1.png"
       />
-      <img
+      <Image
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/2.png"
       />
     </div>
     <div className="w-full flex gap-2 justify-center items-center my-2">
-      <img
+      <Image
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/3.png"
       />
-            <img
+            <Image
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/5.png"
       />
-      <img
+      <Image
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/4.png"

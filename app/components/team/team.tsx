@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 
 const TeamSection = () => {
@@ -15,7 +16,7 @@ const TeamSection = () => {
       </div>
       <div className="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div className="text-center text-gray-500 dark:text-gray-400">
-          <img
+          <Image
             className="mx-auto mb-4 w-36 h-36 rounded-full"
             src="/images/abdulahi.jpg"
                         alt="Eng Abdullahi"
@@ -100,7 +101,7 @@ const TeamSection = () => {
           </ul>
         </div>
         <div className="text-center text-gray-500 dark:text-gray-400">
-          <img
+          <Image
             className="mx-auto mb-4 w-36 h-36 rounded-full"
                         src="/images/McHamouda.jpeg"
                         alt="Eng Hamouda"
@@ -185,7 +186,7 @@ const TeamSection = () => {
           </ul>
         </div>
         <div className="text-center text-gray-500 dark:text-gray-400">
-          <img
+          <Image
             className="mx-auto mb-4 w-36 h-36 rounded-full"
             src="/images/abdulahi.jpg"
                         alt="Eng Abdullahi"
@@ -270,7 +271,7 @@ const TeamSection = () => {
           </ul>
         </div>
         <div className="text-center text-gray-500 dark:text-gray-400">
-          <img
+          <Image
             className="mx-auto mb-4 w-36 h-36 rounded-full"
             src="/images/McHamouda.jpeg"
             alt="Eng Hamouda"
