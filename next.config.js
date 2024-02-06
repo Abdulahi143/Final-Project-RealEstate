@@ -11,7 +11,6 @@ const nextConfig = {
       'res.cloudinary.com',
     ],
   },
-  // Add any other Next.js configurations here
 };
 
 module.exports = withPlugins([], nextConfig, {

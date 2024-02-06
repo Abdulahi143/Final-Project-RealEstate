@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { FaTrash, FaEdit, FaSearch } from "react-icons/fa";
 import Container from "@/app/components/Container";
 import { SafeListing, SafeUser } from "@/app/types";
+import useCountries from "@/app/hooks/useCountries";
 
 interface PropertiesClientProps {
   listings: SafeListing[];
@@ -22,8 +23,9 @@ const SalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("active");
   const listingsPerPage = 10;
+  const { getByValue } = useCountries();
 
-
+const location = getByValue(listings.find((listing) => listing.locationValue)?.locationValue || '');
 
   const onDelete = useCallback(
     (id: string) => {
@@ -131,7 +133,7 @@ const SalesClient: React.FC<PropertiesClientProps> = ({ listings, isAdmin, users
                 {findUserById(listing.userId)?.name || 'N/A'}
                 </td>
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  {listing.locationValue}
+                  {location?.label}
                 </td>
                 <td className="px-6 py-4">${listing.price}</td>
                 <td className="px-6 py-4">

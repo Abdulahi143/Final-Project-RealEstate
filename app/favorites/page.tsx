@@ -24,10 +24,13 @@ const ListingPage = async () => {
 
   return (
     <ClientOnly>
+      <div className="mt-24">
       <FavoritesClient
         listings={listings}
         currentUser={currentUser}
       />
+      </div>
+
     </ClientOnly>
   );
 }

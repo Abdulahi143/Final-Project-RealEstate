@@ -263,11 +263,15 @@ const Hero = () => {
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/1.png"
+        width={500}
+        height={500}
       />
       <Image
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/2.png"
+        width={500}
+        height={500}
       />
     </div>
     <div className="w-full flex gap-2 justify-center items-center my-2">
@@ -275,16 +279,22 @@ const Hero = () => {
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/3.png"
+        width={500}
+        height={500}
       />
             <Image
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/5.png"
+        width={500}
+        height={500}
       />
       <Image
         className="object-cover object-center rounded-xl w-full md:w-32 lg:w-40 xl:w-48"
         alt="hero"
         src="/images/hero/4.png"
+        width={500}
+        height={500}
       />
 
     </div>

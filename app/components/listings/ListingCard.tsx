@@ -261,7 +261,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
         {data.title}
       </div>
       <div className="font-light text-neutral-500">
-          {data.category}
+          {data.category} Area At {location?.label}
         </div>
       <div className="flex flex-row justify-start items-center lg:gap-4 mt-2">
               <BuildTypeComponent buildType={data.buildType} />

@@ -1,22 +1,25 @@
+""
 import React from 'react';
-import getListings, { IListingsParams } from '@/app/actions/getListings';
-import getCurrentUser from '@/app/actions/getCurrentUser';
 import ClientOnly from './ClientOnly';
 import { ListingType } from '@prisma/client';
-import FirstFiveCards from './listings/FirstFiveCards';
 import ListingCard from './listings/ListingCard';
+import { SafeListing, SafeUser } from '../types';
 
 
 interface HomeProps {
-  searchParams: IListingsParams;
+  listings: SafeListing[],
+  currentUser: SafeUser | null,
+
 }
 
-const HomeListing = async ({ searchParams }: HomeProps) => {
-  const allListings = await getListings(searchParams);
-  const currentUser = await getCurrentUser();
+const HomeListingClient: React.FC<HomeProps> = ({
+  listings,
+  currentUser
+}) => {
 
-  const rentListings = allListings.filter(listing => listing.availability === true && listing.type === ListingType.RENT);
-  const saleListings = allListings.filter(
+
+  const rentListings = listings.filter(listing => listing.availability === true && listing.type === ListingType.RENT);
+  const saleListings = listings.filter(
     (listing) => listing.availability === true && listing.type === "SALE"
   );
 
@@ -51,6 +54,7 @@ const HomeListing = async ({ searchParams }: HomeProps) => {
     </ClientOnly>
     
   );
-};
+}
+  
 
-export default HomeListing;
+export default HomeListingClient;

@@ -20,6 +20,8 @@ const TeamSection = () => {
             className="mx-auto mb-4 w-36 h-36 rounded-full"
             src="/images/abdulahi.jpg"
                         alt="Eng Abdullahi"
+                        width={500}
+                        height={500}
           />
           <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             <a href="#">Abdullahi Shakur</a>
@@ -105,6 +107,8 @@ const TeamSection = () => {
             className="mx-auto mb-4 w-36 h-36 rounded-full"
                         src="/images/McHamouda.jpeg"
                         alt="Eng Hamouda"
+                        width={500}
+                        height={500}
           />
           <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             <a href="#">Eng Mc Hamouda</a>
@@ -190,6 +194,8 @@ const TeamSection = () => {
             className="mx-auto mb-4 w-36 h-36 rounded-full"
             src="/images/abdulahi.jpg"
                         alt="Eng Abdullahi"
+                        width={500}
+                        height={500}
           />
           <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             <a href="#">Abdullahi</a>
@@ -275,6 +281,8 @@ const TeamSection = () => {
             className="mx-auto mb-4 w-36 h-36 rounded-full"
             src="/images/McHamouda.jpeg"
             alt="Eng Hamouda"
+            width={500}
+            height={500}
           />
           <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             <a href="#">Mc</a>

@@ -3,22 +3,26 @@ import Container from "@/app/components/Container";
 
 import ClientOnly from "./components/ClientOnly";
 import Hero from "./components/hero/Hero";
-import { IListingsParams } from "./actions/getListings";
+import getListings, { IListingsParams } from "./actions/getListings";
 import TeamSection from "./components/team/team";
 import HomeListing from "./components/HomeListings";
 import ContactSection from "./components/contact/ContactSection";
+import getCurrentUser from "./actions/getCurrentUser";
 
-interface HomeProps {
-  searchParams: IListingsParams;
-}
+const Home = async () => {
 
-const Home = async ({ searchParams }: HomeProps) => {
+  const listings = await getListings({});
+  const currentUser = await getCurrentUser();
+
+
   return (
     <>
       <Hero />
       <ClientOnly>
         <Container>
-          <HomeListing searchParams={searchParams} />
+          <HomeListing
+          listings={listings}
+        currentUser={currentUser} />
         </Container>
       </ClientOnly>
       <TeamSection />

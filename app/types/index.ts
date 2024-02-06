@@ -7,6 +7,18 @@ export type SafeListing = (Omit<RentListings, "createdAt"> | Omit<SaleListings, 
   availability: boolean | null;
   user?: SafeUser; // Use SafeUser here
   userId?: string;
+  sizeCount?: number;
+  roomCount?: number;
+  bathroomCount?: number;
+  startDate?: string;
+  endDate?: string;
+  locationValue?: string;
+  category?: string;
+  buildType?: string | null;
+  priceRange?: string;
+  page?: number;
+  limit?: number;
+  query?: string;
 };
 
 
