@@ -1,11 +1,9 @@
-
+export const dynamic = 'force-dynamic' 
 import ClientOnly from "@/app/components/ClientOnly";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getListings, { IListingsParams } from "../actions/getListings";
 import RentFilterSection from "../components/filters/rentfilters/Filter";
-import RentsClient from "./RentsClient";
 import RentsEmptyState from "./_Components/EmptyState";
-import { SearchParamsTypes } from "../types/searchParams";
 import ListingCard from "../components/listings/ListingCard";
 
 interface ListingPageProps {
