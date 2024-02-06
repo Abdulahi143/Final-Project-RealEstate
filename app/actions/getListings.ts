@@ -1,7 +1,5 @@
-// getListings.ts
 import prisma from "@/app/libs/prismadb";
 import { ListingType } from "@prisma/client";
-
 export interface IListingsParams {
   userId?: string;
   sizeCount?: number;

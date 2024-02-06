@@ -1,32 +1,19 @@
 import ClientOnly from "@/app/components/ClientOnly";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import getListings from "../actions/getListings";
+import getListings, { IListingsParams } from "../actions/getListings";
 import SaleFilterSection from "../components/filters/salefilters/Filter";
 import SalesEmptyState from "./_Components/EmptyState";
 import SalesClient from "./SalesClient";
 import { ListingType } from "@prisma/client";
 
-const ListingPage = async ({
-  searchParams,
-}: {
-  searchParams: {
-    userId?: string;
-    sizeCount?: number;
-    roomCount?: number;
-    bathroomCount?: number;
-    startDate?: string;
-    endDate?: string;
-    locationValue?: string;
-    category?: string;
-    type?: ListingType;
-    buildType?: string | null;
-    priceRange?: string;
-    page?: number;
-    limit?: number;
-    query?: string;
-  };
-}) => {
+interface ListingPageProps {
+  searchParams: IListingsParams
+};
+
+
+const ListingPage = async ({ searchParams }: ListingPageProps) => {
+
   const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
 

@@ -1,5 +1,3 @@
-
-
 "use client"
 import { SafeListing, SafeUser } from "@/app/types";
 
