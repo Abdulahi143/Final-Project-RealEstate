@@ -6,6 +6,7 @@ import RentFilterSection from "../components/filters/rentfilters/Filter";
 import RentsClient from "./RentsClient";
 import RentsEmptyState from "./_Components/EmptyState";
 import { SearchParamsTypes } from "../types/searchParams";
+import ListingCard from "../components/listings/ListingCard";
 
 interface ListingPageProps {
   searchParams: IListingsParams
@@ -39,10 +40,17 @@ const ListingPage = async ({ searchParams }: ListingPageProps) => {
 
   // Render component with rent listings
   return (
-    <RentsClient
-      listings={listings}
-      currentUser={currentUser}
-    />
+    <div className="container mx-auto my-8">
+    <div className="mb-8 ">
+      <h1 className="ml-2 text-3xl font-bold mb-4 mt-24">All Rents</h1>
+      <RentFilterSection />
+    </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      {rentListings.map((rent) => (
+        <ListingCard currentUser={currentUser} key={rent.id} data={rent} />
+      ))}
+    </div>
+  </div>
   );
 };
 

@@ -6,6 +6,7 @@ import SaleFilterSection from "../components/filters/salefilters/Filter";
 import SalesEmptyState from "./_Components/EmptyState";
 import SalesClient from "./SalesClient";
 import { ListingType } from "@prisma/client";
+import ListingCard from "../components/listings/ListingCard";
 
 interface ListingPageProps {
   searchParams: IListingsParams
@@ -40,8 +41,18 @@ const ListingPage = async ({ searchParams }: ListingPageProps) => {
 
   return (
     <ClientOnly>
-      <SalesClient listings={listings} currentUser={currentUser} />
-    </ClientOnly>
+    <div className="container mx-auto my-8">
+      <div className="mb-8 ">
+        <h1 className="ml-2 text-3xl font-bold mb-4 mt-24">All Sales</h1>
+        <SaleFilterSection />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {saleListings.map((sale) => (
+          <ListingCard currentUser={currentUser} key={sale.id} data={sale} />
+        ))}
+      </div>
+    </div>
+  </ClientOnly>
   );
 };
 
