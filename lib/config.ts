@@ -1,1 +1,1 @@
-export const API = process.env.NODE_ENV === 'production' ? 'https://yourdomain.com/api' : 'http://localhost:3000/api'
+export const API = process.env.NODE_ENV === 'production' ? 'https://dusgiiye-real-estate-by-qaska-5468s69wn-abdulahi143.vercel.app/api' : 'http://localhost:3000/api'

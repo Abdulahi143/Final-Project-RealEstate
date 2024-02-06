@@ -144,6 +144,22 @@ const UserMenu: React.FC<UserMenuProps> = ({
               </>
             ) : (
               <>
+              <div className="lg:hidden xl:hidden 2xl:hidden">
+ 
+ <MenuItem 
+label="All sales" 
+onClick={() => router.push('/sales')}
+/>        <MenuItem 
+label="All rents" 
+onClick={() => router.push('/rents')}
+/> 
+                              <MenuItem 
+label="About" 
+onClick={() => router.push('/about')}
+/>
+</div>
+
+<hr />
                 <MenuItem 
                   label="Login" 
                   onClick={loginModal.onOpen}
