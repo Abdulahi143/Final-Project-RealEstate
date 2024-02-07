@@ -1,5 +1,5 @@
-"use client"
-import React, { useEffect, useState } from 'react';
+export const dynamic = 'force-dynamic' 
+import React from 'react';
 import WeekSaleProfits from './_component/WeekSaleProfits';
 import WeekRentProfits from './_component/WeekRentProfits';
 import LatestSalesClient from './_component/fetchingClientside/LatestSalesCLient';
@@ -12,60 +12,46 @@ import getListings, { IListingsParams } from '@/app/actions/getListings';
 import { ListingType } from '@prisma/client';
 import { SafeListing, SafeUser } from '@/app/types';
 
-
-interface DashboardProps {
+interface SalesProps {
   searchParams: IListingsParams;
   type: ListingType;
   listings: SafeListing[];
 }
 
-const DashboardPage = () => {
+const DashboardPage = async ({ searchParams, type, listings }: SalesProps) => {
+  const currentUser = await getCurrentUser();
 
-    // const [userOwnedListings, setUserOwnedListings] = useState<SafeListing[]>([]);
-    // const [users, setUsers] = useState<SafeUser[] | null>(null);
-    // const [isAdmin, setIsAdmin] = useState<SafeUser | null>(null);
-  
-    // useEffect(() => {
-    //   const fetchData = async () => {
-    //     const currentUser = await getCurrentUser();
-  
-    //     if (!currentUser) {
-    //         <EmptyState
-    //         title="Unauthorized"
-    //         subtitle="Please login"
-    //       />
-    //       return;
-    //     }
-  
-    //     setIsAdmin(currentUser.isAdmin ? currentUser : null);
-  
-    //     if (!isAdmin) {
-    //         <EmptyState
-    //         title="You are not admin😢"
-    //         subtitle="Adios👋"
-    //       />
-    //       return;
-    //     }
-  
-    //     const [userListings, fetchedUsers] = await Promise.all([
-    //       getListings({ userId: currentUser.id }),
-    //       getUsers(),
-    //     ]);
-  
-    //     setUserOwnedListings(userListings);
-    //     setUsers(fetchedUsers);
-    //   };
-  
-    //   fetchData();
-    // }, []);
-  
-    // const allListings = await getListings({});
-  
+  if (!currentUser) {
+    return (
+      <EmptyState
+        title="Unauthorized"
+        subtitle="Please login"
+      />
+    );
+  }
+
+  const isAdmin: SafeUser | null = currentUser.isAdmin ? currentUser : null;
+
+  if (!isAdmin) {
+    return (
+      <EmptyState
+        title="You are not admin😢"
+        subtitle="Adios👋"
+      />
+    );
+  }
+
+  const [userOwnedListings, users] = await Promise.all([
+    getListings({ userId: currentUser.id }),
+    getUsers()
+  ]);
+
+  const allListings = await getListings({});
 
   return (
     <div className="pt-12 px-4 flex-1">
       <div className="flex flex-wrap gap-4">
-        {/* <div className='flex-1'>
+        <div className='flex-1'>
           <WeekSaleProfits />
         </div>
         <div className='flex-1'>
@@ -84,9 +70,8 @@ const DashboardPage = () => {
           listings={allListings}
           isAdmin={isAdmin}
           displayCount={6}
-        /> */}
+        />
         <OverView />
-        {/* <DashboardPage /> */}
       </div>
     </div>
   );
