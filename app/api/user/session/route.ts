@@ -1,4 +1,5 @@
 import { SafeListing } from "@/app/types";
+import prisma from "@/app/libs/prismadb";
 import { calculateTotalPrice } from "@/lib/CalculatedPrice";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
@@ -8,6 +9,8 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: "2023-10-16"
 });
+
+
 
 // Define the POST function for handling requests
 export async function POST(request: NextRequest) {
