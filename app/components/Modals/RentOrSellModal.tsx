@@ -37,7 +37,7 @@ const RentOrSellModal: React.FC = () => {
           <Image src="/images/rent.png" alt="Rent" className="max-w-full ml-1 h-auto" />
         </div>
         <div className={`flex flex-col items-center ml-24 cursor-pointer ${selectedType === 'sell' ? 'opacity-50' : ''}`} onClick={handleSell}>
-          <Image src="/images/sell.png" alt="Sell" className="max-w-full h-auto" />
+          <Image src="/images/sell2.png" alt="Sell" className="max-w-full h-auto" />
         </div>
       </div>
     </div>
