@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
                     },
                     unit_amount: unitAmount,
                 },
-                quantity:  1, // Set a default quantity (e.g., 1) if it's not provided
+                quantity:  1, 
             };
         });
         
@@ -96,8 +96,8 @@ export async function POST(request: NextRequest) {
             customer_email: session.user?.email as string,
             line_items: calculatedListings,
             mode: "payment",
-            success_url: process.env.NODE_ENV === "production" ? "https://dusgiiye-real-estate-by-qaska-5468s69wn-abdulahi143.vercel.app/success" : "http://localhost:3000/success",
-            cancel_url: process.env.NODE_ENV === "production" ? "https://dusgiiye-real-estate-by-qaska-5468s69wn-abdulahi143.vercel.app/cancel" : "http://localhost:3000/cancel",
+            success_url: process.env.NODE_ENV === "production" ? "https://dusgiiye-real-estate-by-qaska.vercel.app/success" : "http://localhost:3000/success",
+            cancel_url: process.env.NODE_ENV === "production" ? "https://dusgiiye-real-estate-by-qaska.vercel.app/cancel" : "http://localhost:3000/cancel",
         });
         
         // Return the Stripe session data as a JSON response

@@ -85,7 +85,8 @@ const DashboardPage = () => {
           isAdmin={isAdmin}
           displayCount={6}
         /> */}
-        <OverView />
+        {/* <OverView /> */}
+        <DashboardPage />
       </div>
     </div>
   );
