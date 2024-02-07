@@ -8,17 +8,12 @@ import OverView from './_component/OverView';
 import EmptyState from '@/app/components/EmptyState';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import getUsers from '@/app/actions/getUsers';
-import getListings, { IListingsParams } from '@/app/actions/getListings';
-import { ListingType } from '@prisma/client';
-import { SafeListing, SafeUser } from '@/app/types';
+import getListings from '@/app/actions/getListings';
+import { SafeUser } from '@/app/types';
 
-interface SalesProps {
-  searchParams: IListingsParams;
-  type: ListingType;
-  listings: SafeListing[];
-}
 
-const DashboardPage = async ({ searchParams, type, listings }: SalesProps) => {
+
+const DashboardPage = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
