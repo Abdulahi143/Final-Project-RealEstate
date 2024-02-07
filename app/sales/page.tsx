@@ -5,8 +5,6 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import getListings, { IListingsParams } from "../actions/getListings";
 import SaleFilterSection from "../components/filters/salefilters/Filter";
 import SalesEmptyState from "./_Components/EmptyState";
-import SalesClient from "./SalesClient";
-import { ListingType } from "@prisma/client";
 import ListingCard from "../components/listings/ListingCard";
 
 interface ListingPageProps {
