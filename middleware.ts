@@ -15,7 +15,7 @@ export default withAuth(
   async function middleware(req) {
     const url = req.nextUrl.pathname;
 //console.log(req?.nextauth?.token?.user?.isAdmin)
-    const userRole = (req?.nextauth?.token?.user as User | undefined)?.isAdmin;
+    const userRole = (req?.nextauth?.token?.user as User)?.isAdmin;
 
     console.log("usr role", userRole)
 
