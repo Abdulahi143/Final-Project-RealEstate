@@ -7,7 +7,7 @@ type User = {
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
+    "/dashboard/admin/:path*",
   ]
 } 
 
@@ -17,7 +17,10 @@ export default withAuth(
 //console.log(req?.nextauth?.token?.user?.isAdmin)
     const userRole = (req?.nextauth?.token?.user as User | undefined)?.isAdmin;
 
-    if (url?.includes('/dashboard/admin') && !userRole) {
+    console.log("usr role", userRole)
+
+    if (url?.includes('/admin') && !userRole) {
+      console.log("doen not have admin")
       //if (!userRole) {
         return NextResponse.redirect(new URL("/", req.url));
       //}
