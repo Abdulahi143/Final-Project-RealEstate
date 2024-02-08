@@ -14,13 +14,13 @@ export const config = {
 export default withAuth(
   async function middleware(req) {
     const url = req.nextUrl.pathname;
-console.log(req?.nextauth?.token?.user)
+//console.log(req?.nextauth?.token?.user?.isAdmin)
     const userRole = (req?.nextauth?.token?.user as User | undefined)?.isAdmin;
 
-    if (url?.startsWith('/dashboard/admin')) {
-      if (!userRole) {
+    if (url?.includes('/dashboard/admin') && !userRole) {
+      //if (!userRole) {
         return NextResponse.redirect(new URL("/", req.url));
-      }
+      //}
     }
     return NextResponse.next();
   },
