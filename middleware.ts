@@ -17,7 +17,7 @@ export default withAuth(
     const userRole = (req?.nextauth?.token?.user as User | undefined)?.isAdmin ?? false;
 
     if (url?.startsWith('/dashboard/admin/')) {
-      if (typeof userRole === 'boolean' && !userRole) {
+      if (!userRole) {
         return NextResponse.redirect(new URL("/", req.url));
       }
     }
