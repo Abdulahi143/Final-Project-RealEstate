@@ -4,7 +4,7 @@
 // import GoogleProvider from 'next-auth/providers/google';
 // import FacebookProvider from 'next-auth/providers/facebook';
 // import CredentialsProvider from 'next-auth/providers/credentials';
-// import crypto from 'crypto';
+
 
 // export const authOptions: AuthOptions = {
 //     adapter: PrismaAdapter(prisma),
@@ -86,14 +86,15 @@
 // export default NextAuth(authOptions)
 
 
-import { createHash } from "crypto";
-import NextAuth, { AuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GithubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-import prisma from "@/app/libs/prismadb";
+import bcrypt from "bcrypt"
+import NextAuth, { AuthOptions } from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+import GithubProvider from "next-auth/providers/github"
+import GoogleProvider from "next-auth/providers/google"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+
+import prisma from "@/app/libs/prismadb"
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -127,9 +128,12 @@ export const authOptions: AuthOptions = {
           throw new Error('Invalid credentials');
         }
 
-        const hash = createHash('sha256').update(credentials.password).digest('hex');
-        
-        if (hash !== user.hashedPassword) {
+        const isCorrectPassword = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword
+        );
+
+        if (!isCorrectPassword) {
           throw new Error('Invalid credentials');
         }
 
