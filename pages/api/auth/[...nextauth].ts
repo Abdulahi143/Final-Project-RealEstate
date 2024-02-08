@@ -21,22 +21,17 @@ export const authOptions: AuthOptions = {
         CredentialsProvider({
             name: 'credentials',
             credentials: {
-                identifier: { label: "Email or Name", type: "text" },
+                email: { label: 'Email', type: 'text' },
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials) {
                 try {
-                    if (!credentials?.identifier || !credentials?.password) {
+                    if ((!credentials?.email) || !credentials?.password) {
                         throw new Error('Missing credentials');
                     }
         
-                    const user = await prisma.user.findFirst({
-                        where: {
-                            OR: [
-                                { email: credentials.identifier },
-                                { name: credentials.identifier },
-                            ],
-                        },
+                    const user = await prisma.user.findUnique({
+                        where: { email: credentials.email }
                     });
         
                     if (!user || !user.hashedPassword) {
@@ -58,6 +53,8 @@ export const authOptions: AuthOptions = {
                 }
             }
         }),
+
+
     ],
 
     callbacks: {
