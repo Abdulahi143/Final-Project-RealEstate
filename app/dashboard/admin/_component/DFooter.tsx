@@ -3,9 +3,7 @@ import React from 'react'
 
 const DashboardFooter = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-    <div className="flex-grow">
-    </div>
+    <div className="flex flex-col">
        <footer className="bg-white lg:ml-[270px] md:flex md:items-center md:justify-between shadow rounded-lg p-4 md:p-6 xl:p-8 mx-4 sm:p-6 flex-shrink-0">
           <ul className="flex items-center flex-wrap mb-6 md:mb-0  justify-between">
             <li>

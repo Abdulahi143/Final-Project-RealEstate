@@ -71,16 +71,16 @@ const filteredUsers = users.filter((user) => {
 
   return (
     <Container>
-       <div className="relative mt-24">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500" />
-        </div>
+ <div className="relative mt-24 w-[350px]">
+  <input
+    type="text"
+    placeholder="Search..."
+    className="w-full px-10 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+  <FaSearch className="absolute top-[50%] transform -translate-y-1/2 right-3 text-gray-500" />
+</div>
 
       <div className="flex items-center justify-center space-x-4">
           <div
