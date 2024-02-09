@@ -15,6 +15,9 @@ import NextAuthProvider from "./providers/NextAuthProvider";
 import FootersManagement from "./Footers";
 import PaymentModal from "./components/Modals/PaymentModal";
 import { ReactQueryProvider } from "./providers/ReactQueryProvider";
+import EditModal from "./components/Modals/EditModal";
+import getListings from "./actions/getListings";
+import getRentListingsById from "./actions/getRentListingById";
 
 export const metadata = {
   title: "Dugsiiye Real Estate",
@@ -43,6 +46,7 @@ export default async function RootLayout({
               <RegisterModal />
               <RentModal />
               <SellModal />
+              <EditModal  />
               <RentOrSellModal />
               <ContactModal />
               <MessageModal />

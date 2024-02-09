@@ -10,6 +10,7 @@ import { SafeListing, SafeUser } from "@/app/types";
 import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
+import useEditModal from "../hooks/useEditModal";
 
 interface PropertiesClientProps {
   listings: SafeListing[];
@@ -24,6 +25,10 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
 }) => {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState("");
+  const [selectedType, setSelectedType] = useState<'rent' | 'sell' | ''>('');
+
+
+  const editModal = useEditModal();
 
   const onDelete = useCallback(
     (id: string) => {
@@ -66,6 +71,11 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
     [router]
   );
   
+
+  const handleUpdate = () => {
+    setSelectedType('rent');
+    editModal.onOpen();
+  };
 
   const onUpdate = useCallback(
     (id: string) => {
@@ -128,7 +138,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
                    secondaryActionLabel={
                   listing.availability ? "Mark as Sold" : "Mark as Available"
                 }
-                onThirdAction={onUpdate}
+                onThirdAction={handleUpdate}
                 thirdActionLabel="Edit"
                 currentUser={currentUser}
               />
@@ -155,7 +165,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             secondaryActionLabel={
            listing.availability ? "Mark as Rented" : "Mark as Available"
          }
-         onThirdAction={onUpdate}
+         onThirdAction={handleUpdate}
          thirdActionLabel="Edit"
             currentUser={currentUser}
           />
@@ -179,7 +189,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             secondaryActionLabel={
            listing.availability ? "Mark as Sold" : "Mark as Available"
          }
-         onThirdAction={onUpdate}
+         onThirdAction={handleUpdate}
          thirdActionLabel="Edit"
             currentUser={currentUser}
           />
@@ -202,7 +212,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             secondaryActionLabel={
            listing.availability ? "Mark as Rented" : "Mark as Available"
          }
-         onThirdAction={onUpdate}
+         onThirdAction={handleUpdate}
          thirdActionLabel="Edit"
             currentUser={currentUser}
           />

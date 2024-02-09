@@ -151,14 +151,14 @@ const ContactSectionClient = () => {
         <span className="text-red-500">{validationErrors.phoneNumber}</span>
       </div>
       <div className="mb-6">
-        <textarea
-          rows={6}
-          placeholder="Your Message"
-          value={formData.message}
-          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          className="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] resize-none outline-none focus-visible:shadow-none focus:border-green-500"
-          defaultValue={''}
-        />
+      <textarea
+  rows={6}
+  placeholder="Your Message"
+  value={formData.message}
+  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+  className="w-full rounded py-3 px-[14px] text-body-color text-base border border-[f0f0f0] resize-none outline-none focus-visible:shadow-none focus:border-green-500"
+/>
+
         <span className="text-red-500">{validationErrors.message}</span>
       </div>
       <div>
