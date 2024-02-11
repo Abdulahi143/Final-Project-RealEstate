@@ -1,5 +1,4 @@
 'use client';
-// ImageUpload.js
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { useCallback, useState } from "react";
